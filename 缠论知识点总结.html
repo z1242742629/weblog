@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>缠论知识点总结 - 缠中说禅技术理论</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'SimHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #e94560 0%, #ff6b6b 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(233, 69, 96, 0.3);
+        }
+
+        .header h1 {
+            font-size: 42px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav li {
+            margin: 0 10px;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .chapter {
+            background: white;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .chapter:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .chapter-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 40px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .chapter-number {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .chapter-title {
+            flex: 1;
+        }
+
+        .chapter-title h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .chapter-title p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .chapter-content {
+            padding: 30px 40px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .section h3 {
+            font-size: 18px;
+            color: #667eea;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h3::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .section p {
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .section ul, .section ol {
+            padding-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        .section li {
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .concept-box {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .concept-box h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .concept-box p {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeeba 100%);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #856404;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #fef08a 0%, #fde047 100%);
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin: 20px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .warning-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .warning-content {
+            flex: 1;
+        }
+
+        .warning-content h4 {
+            color: #856404;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .warning-content p {
+            color: #92400e;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .video-box {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .video-icon {
+            font-size: 36px;
+        }
+
+        .video-info {
+            flex: 1;
+        }
+
+        .video-info h4 {
+            color: white;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .video-info p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
+        }
+
+        .video-link {
+            background: linear-gradient(135deg, #e94560 0%, #ff6b6b 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .video-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(233, 69, 96, 0.4);
+        }
+
+        .footer {
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+        }
+
+        .footer p {
+            opacity: 0.7;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .nav a {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            .chapter-header {
+                padding: 20px;
+            }
+
+            .chapter-content {
+                padding: 20px;
+            }
+
+            .chapter-number {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+
+            .video-box {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>缠论知识点总结</h1>
+        <p>缠中说禅技术理论 | 走势必完美</p>
+    </div>
+
+    <div class="nav">
+        <ul>
+            <li><a href="#chapter1">K线入门</a></li>
+            <li><a href="#chapter2">分型与笔</a></li>
+            <li><a href="#chapter3">线段</a></li>
+            <li><a href="#chapter4">中枢</a></li>
+            <li><a href="#chapter5">级别法则</a></li>
+            <li><a href="#chapter6">背驰形态</a></li>
+            <li><a href="#chapter7">买卖点法则</a></li>
+            <li><a href="#chapter8">交易心理</a></li>
+            <li><a href="#chapter9">学习资源</a></li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <div id="chapter1" class="chapter">
+            <div class="chapter-header">
+                <div class="chapter-number">01</div>
+                <div class="chapter-title">
+                    <h2>K线入门</h2>
+                    <p>缠论的基础：K线形态与时间周期</p>
+                </div>
+            </div>
+            <div class="chapter-content">
+                <div class="section">
+                    <h3>基本K线形态</h3>
+                    <p>K线是市场价格变动的基本记录单位，包含开盘价、收盘价、最高价、最低价四个要素。每一根K线都反映了特定时间周期内市场参与者的多空博弈结果。</p>
+                    <ul>
+                        <li><strong>阳线</strong>：收盘价 > 开盘价，通常为红色或白色，表示买方力量强于卖方</li>
+                        <li><strong>阴线</strong>：收盘价 < 开盘价，通常为绿色或黑色，表示卖方力量强于买方</li>
+                        <li><strong>十字线</strong>：开盘价 ≈ 收盘价，表明多空力量暂时平衡，市场可能即将选择方向</li>
+                        <li><strong>锤子线/上吊线</strong>：长下影线，短实体，出现在底部可能是反转信号</li>
+                        <li><strong>流星线/倒锤子线</strong>：长上影线，短实体，出现在顶部可能是反转信号</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h3>K线包含关系处理</h3>
+                    <p>缠论中需要先处理K线的包含关系，将复杂K线简化为标准形态，这是后续分析的基础步骤。</p>
+                    <div class="concept-box">
+                        <h4>包含关系定义</h4>
+                        <p>如果一根K线的高低点都在另一根K线的范围之内，则这两根K线存在包含关系。即：K线A的高点 ≤ K线B的高点，且K线A的低点 ≥ K线B的低点。</p>
+                    </div>
+                    <ol>
+                        <li><strong>方向判断</strong>：以前一K线方向为准（高点 > 低点为向上，否则向下）</li>
+                        <li><strong>合并规则</strong>：向上取高高（高点取两根K线的最高值），向下取低低（低点取两根K线的最低值）</li>
+                        <li><strong>处理顺序</strong>：从左到右依次处理，新合并的K线继续与下一根K线比较</li>
+                    </ol>
+                    <p><strong>核心目的</strong>：通过包含关系处理，可以过滤掉无意义的小波动，更清晰地看到市场的真实走势方向。</p>
+                </div>
+
+                <div class="section">
+                    <h3>时间周期图</h3>
+                    <p>不同时间周期的K线图反映不同级别的走势，大级别决定方向，小级别决定入场点。</p>
+                    <ul>
+                        <li><strong>年K线 → 季K线 → 月K线</strong>：长期趋势判断，适合长线投资者</li>
+                        <li><strong>周K线 → 日K线</strong>：中期趋势分析，适合波段操作</li>
+                        <li><strong>60分钟 → 30分钟 → 5分钟 → 1分钟</strong>：短期操作参考，适合日内交易</li>
+                    </ul>
+                    <div class="warning-box">
+                        <span class="warning-icon">💡</span>
+                        <div class="warning-content">
+                            <h4>周期选择技巧</h4>
+                            <p>选择操作级别时，至少要看高一个级别的走势。例如做30分钟级别操作，必须参考日线级别的趋势方向。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="chapter2" class="chapter">
+            <div class="chapter-header">
+                <div class="chapter-number">02</div>
+                <div class="chapter-title">
+                    <h2>分型与笔</h2>
+                    <p>构建走势的基础单元</p>
+                </div>
+            </div>
+            <div class="chapter-content">
+                <div class="section">
+                    <h3>分型的定义</h3>
+                    <p>分型是市场转折的最小单元，由三根处理完包含关系的K线构成，是判断市场阶段性顶部和底部的关键信号。</p>
+                    <div class="concept-box">
+                        <h4>顶分型</h4>
+                        <p>中间K线的高点是三根K线中最高的，且两边K线的高点都低于此高点。顶分型预示市场可能由涨转跌，是潜在的卖出信号。</p>
+                    </div>
+                    <div class="concept-box">
+                        <h4>底分型</h4>
+                        <p>中间K线的低点是三根K线中最低的，且两边K线的低点都高于此低点。底分型预示市场可能由跌转涨，是潜在的买入信号。</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>分型的强弱判断</h3>
+                    <p>分型的强弱直接影响后续走势的可靠性，强分型往往预示更可靠的反转信号。</p>
+                    <ul>
+                        <li><strong>强顶分型</strong>：中间K线为长上影线或大阴线，实体较长，下跌力度强</li>
+                        <li><strong>弱顶分型</strong>：中间K线实体较小，影线较短，下跌力度较弱</li>
+                        <li><strong>强底分型</strong>：中间K线为长下影线或大阳线，实体较长，上涨力度强</li>
+                        <li><strong>弱底分型</strong>：中间K线实体较小，影线较短，上涨力度较弱</li>
+                    </ul>
+                    <p><strong>实战技巧</strong>：结合成交量判断分型强弱，放量的分型通常更可靠。</p>
+                </div>
+
+                <div class="section">
+                    <h3>笔的定义与划分</h3>
+                    <p>笔是连接相邻顶底分型的一段方向性走势，是构成线段的基础单元。</p>
+                    <div class="warning-box">
+                        <span class="warning-icon">⚠️</span>
+                        <div class="warning-content">
+                            <h4>笔的划分规则</h4>
+                            <p>1. 顶分型与底分型之间至少有一根独立K线；2. 旧笔规则：顶底之间至少5根K线；3. 新笔规则：顶底之间至少4根独立K线（放宽条件）</p>
+                        </div>
+                    </div>
+                    <ul>
+                        <li><strong>向上笔</strong>：底分型 + 上升K线 + 顶分型，表示一段上涨走势</li>
+                        <li><strong>向下笔</strong>：顶分型 + 下降K线 + 底分型，表示一段下跌走势</li>
+                    </ul>
+                    <p><strong>笔的延伸与结束</strong>：当出现新的相反方向笔时，原笔结束。笔的方向由相邻分型的高低点决定。</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="chapter3" class="chapter">
+            <div class="chapter-header">
+                <div class="chapter-number">03</div>
+                <div class="chapter-title">
+                    <h2>线段</h2>
+                    <p>由笔构成的次级别走势</p>
+                </div>
+            </div>
+            <div class="chapter-content">
+                <div class="section">
+                    <h3>线段的定义</h3>
+                    <p>线段是由至少3笔构成的走势，且前三笔必须有重叠区域。线段是缠论中连接笔和中枢的关键环节。</p>
+                    <div class="concept-box">
+                        <h4>线段特征</h4>
+                        <p>线段由奇数个笔构成（3笔、5笔、7笔...），反映次级别趋势方向。线段的方向由第一笔的方向决定。</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>线段的延伸与结束</h3>
+                    <ul>
+                        <li><strong>线段延伸</strong>：同一方向的笔不断延续，未出现相反方向的破坏。只要没有被破坏，线段就会一直延伸。</li>
+                        <li><strong>线段结束</strong>：出现相反方向的线段破坏当前线段。线段的结束需要满足严格的特征序列分型条件。</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h3>特征序列详解</h3>
+                    <p>特征序列是判断线段结束的重要工具，是缠论中较难理解但非常关键的概念。</p>
+                    <ol>
+                        <li><strong>提取特征</strong>：提取线段中每笔的方向特征（向上线段取向下笔的特征，向下线段取向上笔的特征）</li>
+                        <li><strong>处理包含</strong>：对特征序列进行包含关系处理</li>
+                        <li><strong>判断分型</strong>：判断处理后的特征序列是否形成顶底分型</li>
+                        <li><strong>确认破坏</strong>：出现相反方向的特征序列分型且破坏前线段，则线段结束</li>
+                    </ol>
+                </div>
+
+                <div class="section">
+                    <h3>线段的破坏方式</h3>
+                    <ul>
+                        <li><strong>笔破坏</strong>：出现反向笔，但未形成新线段，只是暂时的回调</li>
+                        <li><strong>线段破坏</strong>：出现反向线段，彻底结束原线段，开始新的方向</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="chapter4" class="chapter">
+            <div class="chapter-header">
+                <div class="chapter-number">04</div>
+                <div class="chapter-title">
+                    <h2>中枢</h2>
+                    <p>缠论的核心：走势中枢与走势类型</p>
+                </div>
+            </div>
+            <div class="chapter-content">
+                <div class="section">
+                    <h3>走势中枢的定义</h3>
+                    <p>中枢是缠论最核心的概念，是某级别走势中被至少3个连续次级别走势重叠的价格区间。中枢是多空力量平衡的区域。</p>
+                    <div class="concept-box">
+                        <h4>中枢公式</h4>
+                        <p>中枢 = 【max(三段次级别走势的低点), min(三段次级别走势的高点)】</p>
+                    </div>
+                    <p><strong>通俗理解</strong>：把走势想象成走路，中枢就是在某个区域内来回踱步，积累能量，然后选择新的方向。</p>
+                </div>
+
+                <div class="section">
+                    <h3>中枢的三种形态</h3>
+                    <div class="concept-box">
+                        <h4>中枢延伸</h4>
+                        <p>围绕原中枢区间的震荡，未离开中枢范围。表现为股价在中枢内来回波动，多空力量暂时平衡。</p>
+                    </div>
+                    <div class="concept-box">
+                        <h4>中枢新生</h4>
+                        <p>突破原中枢后形成新的同级别中枢，趋势延续。表现为股价突破中枢后继续原方向运行，形成新的平衡区域。</p>
+                    </div>
+                    <div class="concept-box">
+                        <h4>中枢扩展</h4>
+                        <p>围绕原中枢的大幅震荡，形成更大级别的中枢。表现为股价在更大范围内波动，升级为更高级别中枢。</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>走势类型</h3>
+                    <ul>
+                        <li><strong>上涨走势</strong>：连续创新高，低点抬升，包含至少两个上涨中枢</li>
+                        <li><strong>下跌走势</strong>：连续创新低，高点下降，包含至少两个下跌中枢</li>
+                        <li><strong>盘整走势</strong>：价格在区间内无方向波动，只有一个中枢</li>
+                    </ul>
+                    <p><strong>关键区别</strong>：趋势走势包含两个及以上同方向中枢，盘整只有一个中枢。</p>
+                </div>
+
+                <div class="section">
+                    <h3>走势终完美</h3>
+                    <p class="highlight">任何级别的任何走势类型终将完成。</p>
+                    <p>这是缠论的核心定理，意味着所有走势都有终点，关键是判断何时完成。当一个走势类型完成后，必然转换为其他走势类型。</p>
+                    <p><strong>实战意义</strong>：不要试图预测走势的长度，而是根据走势结构判断是否即将完成。</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="chapter5" class="chapter">
+            <div class="chapter-header">
+                <div class="chapter-number">05</div>
+                <div class="chapter-title">
+                    <h2>级别法则</h2>
+                    <p>多级别联立分析</p>
+                </div>
+            </div>
+            <div class="chapter-content">
+                <div class="section">
+                    <h3>级别的定义</h3>
+                    <p>级别是走势的时间周期和规模的体现，不同级别走势相互嵌套，形成完整的市场图景。</p>
+                    <ul>
+                        <li><strong>大级别</strong>：决定趋势方向（如周线、日线），是战略层面的判断</li>
+                        <li><strong>操作级别</strong>：实际交易的主要级别（如30分钟、60分钟），是战术层面的执行</li>
+                        <li><strong>小级别</strong>：用于精确入场点（如5分钟、1分钟），是战斗层面的细节</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h3>级别的分类</h3>
+                    <div class="concept-box">
+                        <h4>一类级别（趋势级别）</h4>
+                        <p>决定大方向的级别，如日线、周线，用于判断牛市或熊市，是操作的大前提。</p>
+                    </div>
+                    <div class="concept-box">
+                        <h4>二类级别（操作级别）</h4>
+                        <p>实际操作的主要级别，如30分钟或60分钟，决定买卖点的具体位置。</p>
+                    </div>
+                    <div class="concept-box">
+                        <h4>三类级别（精确级别）</h4>
+                        <p>用于精确入场的小级别，如5分钟或1分钟，提高入场点位的精确度。</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>如何选择操作级别</h3>
+                    <ol>
+                        <li><strong>根据资金规模选择</strong>：大资金适合大级别（日线、周线），小资金可选择小级别（30分钟、60分钟）</li>
+                        <li><strong>根据时间精力选择</strong>：全职交易者可选择较小级别，兼职交易者适合较大级别</li>
+                        <li><strong>保持一致性</strong>：选定级别后不要频繁切换，坚持在同一级别操作</li>
+                    </ol>
+                </div>
+
+                <div class="section">
+                    <h3>级别递归</h3>
+                    <p>走势按级别递归：1分钟 → 5分钟 → 30分钟 → 日线 → 周线</p>
+                    <p class="highlight">小级别走势组合构成大级别走势</p>
+                    <p><strong>递归原则</strong>：高级别走势是低级别走势的组合，低级别的背驰可能引发高级别的转折。</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="chapter6" class="chapter">
+            <div class="chapter-header">
+                <div class="chapter-number">06</div>
+                <div class="chapter-title">
+                    <h2>背驰形态</h2>
+                    <p>趋势转折的信号</p>
+                </div>
+            </div>
+            <div class="chapter-content">
+                <div class="section">
+                    <h3>背驰的定义</h3>
+                    <p>背驰是指价格走势与技术指标或力度出现背离，预示趋势可能反转。背驰是缠论中判断买卖点的核心工具。</p>
+                    <p><strong>核心原理</strong>：当价格创新高/新低时，对应的技术指标或成交量未能同步创新高/新低，说明趋势力度在减弱。</p>
+                </div>
+
+                <div class="section">
+                    <h3>背驰的分类</h3>
+                    <div class="concept-box">
+                        <h4>趋势背驰</h4>
+                        <p>价格创新高/新低，但技术指标（如MACD）未同步创新值。分为：</p>
+                        <ul>
+                            <li>上涨趋势背驰：价格新高，MACD红柱缩短或顶背离</li>
+                            <li>下跌趋势背驰：价格新低，MACD绿柱缩短或底背离</li>
+                        </ul>
+                        <p><strong>重要性</strong>：趋势背驰是判断趋势结束最可靠的信号之一。</p>
+                    </div>
+                    <div class="concept-box">
+                        <h4>盘整背驰</h4>
+                        <p>中枢内相邻同向段力度减弱，预示价格将回归中枢或突破。</p>
+                        <p><strong>应用场景</strong>：盘整背驰常用于中枢内的短线操作或判断突破方向。</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>背驰的判断方法</h3>
+                    <ol>
+                        <li><strong>确定趋势方向和级别</strong>：首先明确当前处于什么级别、什么趋势中</li>
+                        <li><strong>比较两段同向走势的力度</strong>：对比前后两段走势的斜率、长度、成交量</li>
+                        <li><strong>观察MACD等指标的背离情况</strong>：重点看MACD柱的面积和高度变化</li>
+                        <li><strong>结合均线相交面积判断</strong>：均线围成的面积大小反映走势力度</li>
+                    </ol>
+                </div>
+
+                <div class="section">
+                    <h3>区间套定理</h3>
+                    <p>通过多个级别逐步缩小范围，精确找到转折点：</p>
+                    <ul>
+                        <li><strong>大级别</strong>：判断趋势方向，确定背驰区域</li>
+                        <li><strong>次级别</strong>：寻找背驰信号，缩小操作范围</li>
+                        <li><strong>小级别</strong>：精确入场点，提高操作精度</li>
+                    </ul>
+                    <div class="warning-box">
+                        <span class="warning-icon">💡</span>
+                        <div class="warning-content">
+                            <h4>实战技巧</h4>
+                            <p>区间套操作：在大级别背驰区域内，用小级别背驰精确入场，提高胜率和点位精度。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="chapter7" class="chapter">
+            <div class="chapter-header">
+                <div class="chapter-number">07</div>
+                <div class="chapter-title">
+                    <h2>买卖点法则</h2>
+                    <p>三类买卖点的精确定位</p>
+                </div>
+            </div>
+            <div class="chapter-content">
+                <div class="section">
+                    <h3>第一类买卖点</h3>
+                    <div class="concept-box">
+                        <h4>第一类买点（下跌趋势结束点）</h4>
+                        <p>下跌趋势背驰后的转折点，是最佳的左侧交易机会。通常出现在趋势的末期，风险较高但收益最大。</p>
+                    </div>
+                    <div class="concept-box">
+                        <h4>第一类卖点（上涨趋势结束点）</h4>
+                        <p>上涨趋势背驰后的转折点，是最佳的左侧卖出机会。通常出现在趋势的末期，及时卖出可锁定大部分利润。</p>
+                    </div>
+                    <p><strong>特点</strong>：第一类买卖点是趋势反转的起点，风险与收益并存，需要结合背驰确认。</p>
+                </div>
+
+                <div class="section">
+                    <h3>第二类买卖点</h3>
+                    <div class="concept-box">
+                        <h4>第二类买点（趋势确认点）</h4>
+                        <p>第一买点后次级别回调不跌破前低形成的买点，安全性更高。是对第一买点的确认，适合稳健型投资者。</p>
+                    </div>
+                    <div class="concept-box">
+                        <h4>第二类卖点（趋势确认点）</h4>
+                        <p>第一卖点后次级别反弹不突破前高形成的卖点，安全性更高。是对第一卖点的确认，可确保利润不回吐太多。</p>
+                    </div>
+                    <p><strong>特点</strong>：第二类买卖点风险较低，成功率较高，是多数投资者的主要操作依据。</p>
+                </div>
+
+                <div class="section">
+                    <h3>第三类买卖点</h3>
+                    <div class="concept-box">
+                        <h4>第三类买点（突破确认点）</h4>
+                        <p>中枢突破后次级别回踩不重回中枢形成的买点，趋势加速信号。表明原有中枢被有效突破，新趋势开始加速。</p>
+                    </div>
+                    <div class="concept-box">
+                        <h4>第三类卖点（跌破确认点）</h4>
+                        <p>中枢跌破后次级别反弹不重回中枢形成的卖点，下跌加速信号。表明原有中枢被有效跌破，下跌趋势将继续。</p>
+                    </div>
+                    <p><strong>特点</strong>：第三类买卖点是趋势加速的信号，适合追涨杀跌，但需注意假突破风险。</p>
+                </div>
+
+                <div class="section">
+                    <h3>三类买卖点的关系</h3>
+                    <p class="highlight">三类买卖点构成完整的操作体系，覆盖了所有可能的交易机会。</p>
+                    <ul>
+                        <li><strong>第一类点</strong>：趋势反转的起始点，风险高，收益大</li>
+                        <li><strong>第二类点</strong>：趋势确认后的加仓点，风险适中，成功率高</li>
+                        <li><strong>第三类点</strong>：趋势加速的追进点，风险较低，适合短线</li>
+                    </ul>
+                    <p><strong>操作策略</strong>：第一类点建仓，第二类点加仓，第三类点确认趋势后继续持有。</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="chapter8" class="chapter">
+            <div class="chapter-header">
+                <div class="chapter-number">08</div>
+                <div class="chapter-title">
+                    <h2>交易心理</h2>
+                    <p>成为成功交易者的必修课</p>
+                </div>
+            </div>
+            <div class="chapter-content">
+                <div class="section">
+                    <h3>股市中的常见心理误区</h3>
+                    <ul>
+                        <li><strong>赌徒心理</strong>：追求一夜暴富，过度交易，忽视风险控制</li>
+                        <li><strong>从众心理</strong>：盲目跟风，缺乏独立判断，追涨杀跌</li>
+                        <li><strong>贪婪恐惧</strong>：盈利时贪婪不止损，亏损时恐惧乱割肉</li>
+                        <li><strong>锚定效应</strong>：执着于买入价，不愿承认错误，死扛亏损</li>
+                        <li><strong>过度自信</strong>：认为自己能预测市场，频繁操作</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h3>正确的交易心态</h3>
+                    <div class="concept-box">
+                        <h4>机械化操作</h4>
+                        <p>制定交易规则并严格执行，像机器一样操作，摒弃情绪化决策。交易计划应在开盘前制定，盘中严格执行。</p>
+                    </div>
+                    <div class="concept-box">
+                        <h4>接受亏损</h4>
+                        <p>亏损是交易的一部分，设置合理止损，坦然接受小亏损换取大收益。止损不是失败，而是风险管理的必要手段。</p>
+                    </div>
+                    <div class="concept-box">
+                        <h4>敬畏市场</h4>
+                        <p>市场是不可预测的，保持谦逊，顺势而为，不与市场对抗。市场永远是对的，错的只有自己的判断。</p>
+                    </div>
+                    <div class="concept-box">
+                        <h4>耐心等待</h4>
+                        <p>好的交易机会需要等待，不要为了交易而交易。空仓也是一种策略。</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>学习缠论的三个阶段</h3>
+                    <ol>
+                        <li><strong>技术学习阶段</strong>：掌握分型、笔、线段、中枢等概念，理解理论框架</li>
+                        <li><strong>实战演练阶段</strong>：在实盘中验证理论，积累经验，形成自己的操作风格</li>
+                        <li><strong>心态修炼阶段</strong>：克服人性弱点，达到知行合一，稳定盈利</li>
+                    </ol>
+                    <p><strong>时间预估</strong>：每个阶段大约需要6个月到1年，因人而异。</p>
+                </div>
+
+                <div class="section">
+                    <h3>缠师箴言</h3>
+                    <p class="highlight">"理论只是解剖现实，功力在当下。投资者需化身'零向量'，摒除贪惧，与市场合力共生。"</p>
+                    <p><strong>解读</strong>：理论是工具，真正的功力在于当下的判断和执行。保持中立，不被贪婪和恐惧左右，与市场融为一体。</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="chapter9" class="chapter">
+            <div class="chapter-header">
+                <div class="chapter-number">09</div>
+                <div class="chapter-title">
+                    <h2>学习资源推荐</h2>
+                    <p>优质学习资料与视频教程</p>
+                </div>
+            </div>
+            <div class="chapter-content">
+                <div class="section">
+                    <h3>核心学习视频</h3>
+                    <div class="video-box">
+                        <span class="video-icon">📺</span>
+                        <div class="video-info">
+                            <h4>【缠论108课】原文逐句讲解（22小时完整版）</h4>
+                            <p>从K线基础到实战应用，缠论零基础入门必看，逐句解读缠师原著</p>
+                        </div>
+                        <a href="https://www.bilibili.com/video/BV1W1XoBYEhj" target="_blank" class="video-link">观看视频</a>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>学习路线建议</h3>
+                    <div class="concept-box">
+                        <h4>第一阶段：基础入门（1-2个月）</h4>
+                        <p>学习K线包含关系处理、顶底分型识别、笔的划分方法</p>
+                    </div>
+                    <div class="concept-box">
+                        <h4>第二阶段：进阶学习（2-3个月）</h4>
+                        <p>掌握线段划分、中枢识别、走势类型判断</p>
+                    </div>
+                    <div class="concept-box">
+                        <h4>第三阶段：实战应用（3-6个月）</h4>
+                        <p>学习背驰判断、三类买卖点操作、多级别联立分析</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>推荐学习方法</h3>
+                    <ol>
+                        <li><strong>精读原著</strong>：反复研读《教你炒股票108课》原文</li>
+                        <li><strong>画图练习</strong>：每天坚持在K线图上划分笔、线段、中枢</li>
+                        <li><strong>复盘总结</strong>：记录每次操作的经验教训</li>
+                        <li><strong>模拟实战</strong>：先用模拟盘练习，再用小资金实盘</li>
+                    </ol>
+                </div>
+
+                <div class="section">
+                    <h3>学习工具推荐</h3>
+                    <ul>
+                        <li><strong>行情软件</strong>：通达信、同花顺、东方财富</li>
+                        <li><strong>画图工具</strong>：TradingView、缠论大师</li>
+                        <li><strong>笔记工具</strong>：Notion、印象笔记</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>缠论知识点总结 | 缠中说禅技术理论</p>
+        <p style="margin-top: 10px; font-size: 12px;">走势必完美 · 市场是合力的结果</p>
+    </div>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

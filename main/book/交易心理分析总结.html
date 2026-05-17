@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>《交易心理分析》章节总结 - 马克·道格拉斯</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 0;
+            line-height: 1.8;
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            background: linear-gradient(135deg, #2d2d3d 0%, #1a1a2e 100%);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .navbar a {
+            color: #e0e0e0;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: all 0.3s;
+            font-size: 1em;
+        }
+
+        .navbar a:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .navbar a.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        /* 顶部标题区域 */
+        .top-header {
+            background: linear-gradient(135deg, #f05060 0%, #ff6b6b 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .top-header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .top-header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.2em;
+            color: #e8e8e8;
+            font-style: italic;
+        }
+
+        .author {
+            margin-top: 20px;
+            font-size: 1em;
+            color: #ccc;
+        }
+
+        .core-concepts {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 30px 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .concept-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .concept-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .concept-box h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 8px;
+        }
+
+        .concept-box ul {
+            list-style: none;
+        }
+
+        .concept-box li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #eee;
+            color: #555;
+        }
+
+        .concept-box li:last-child {
+            border-bottom: none;
+        }
+
+        .chapters {
+            padding: 40px;
+        }
+
+        .chapter-title {
+            font-size: 1.8em;
+            color: #1a1a2e;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .chapter-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+
+        .chapter {
+            margin-bottom: 30px;
+            background: #fafbfc;
+            border-radius: 12px;
+            overflow: hidden;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s;
+        }
+
+        .chapter:hover {
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .chapter-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 18px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chapter-header h2 {
+            font-size: 1.2em;
+        }
+
+        .chapter-header .toggle {
+            font-size: 1.5em;
+            transition: transform 0.3s;
+        }
+
+        .chapter.active .toggle {
+            transform: rotate(45deg);
+        }
+
+        .chapter-content {
+            padding: 25px;
+            display: none;
+        }
+
+        .chapter.active .chapter-content {
+            display: block;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section h4 {
+            color: #764ba2;
+            margin-bottom: 10px;
+            font-size: 1.05em;
+        }
+
+        .section p {
+            color: #555;
+            padding-left: 15px;
+            border-left: 3px solid #e0e0e0;
+        }
+
+        .key-points {
+            background: #fff3cd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .key-points h5 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .key-points ul {
+            list-style-position: inside;
+            color: #856404;
+        }
+
+        .quote {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 4px solid #667eea;
+            padding: 15px 20px;
+            margin: 20px 0;
+            font-style: italic;
+            color: #555;
+        }
+
+        /* 视频容器样式 */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .resource-list {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .resource-list h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .resource-list ul {
+            list-style: none;
+        }
+
+        .resource-list li {
+            padding: 12px 0;
+            border-bottom: 1px dashed #ddd;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .resource-list li:last-child {
+            border-bottom: none;
+        }
+
+        .resource-list li::before {
+            content: "📚";
+            font-size: 1.2em;
+        }
+
+        .resource-list a {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .resource-list a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .footer {
+            background: #1a1a2e;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .chapters {
+                padding: 20px;
+            }
+            
+            .core-concepts {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部红色标题区域 -->
+    <div class="top-header">
+        <h1>《交易心理分析》</h1>
+        <p class="subtitle">用自信、自律和赢家心态掌控市场 | 作者：马克·道格拉斯</p>
+    </div>
+    
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <a href="#core-concepts" class="active">核心概念</a>
+        <a href="#chapter1">成功之道</a>
+        <a href="#chapter2">诱惑与风险</a>
+        <a href="#chapter3">负责</a>
+        <a href="#chapter4">持续一贯</a>
+        <a href="#chapter5">认知动力</a>
+        <a href="#chapter6">市场观点</a>
+        <a href="#chapter7">概率思考</a>
+        <a href="#chapter8">信念优势</a>
+        <a href="#chapter9">信念本质</a>
+        <a href="#chapter10">信念影响</a>
+        <a href="#chapter11">赢家思维</a>
+        <a href="#resources">资源推荐</a>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <p class="subtitle">深入理解交易心理学，建立赢家思维</p>
+        </div>
+
+        <div class="core-concepts" id="core-concepts">
+            <div class="concept-box">
+                <h3>📊 五大基本事实</h3>
+                <ul>
+                    <li>1. 任何事情都可能发生</li>
+                    <li>2. 要赚钱不必知道下一步会有什么变化</li>
+                    <li>3. 定义优势的任何一组变量产生的盈亏都是随机分布的</li>
+                    <li>4. 优势只不过是显示一件事情发生的概率高于另一件事情</li>
+                    <li>5. 市场中的每一刻都具有独一无二的性质</li>
+                </ul>
+            </div>
+            <div class="concept-box">
+                <h3>🏆 七大赢家信念</h3>
+                <ul>
+                    <li>1. 我客观地看出自己的优势</li>
+                    <li>2. 我事先界定每一笔交易的风险</li>
+                    <li>3. 我完全接受风险，并愿意放弃交易</li>
+                    <li>4. 我根据自己的优势行动，毫无保留或犹豫</li>
+                    <li>5. 市场让我赚钱时，我会酬谢自己</li>
+                    <li>6. 我不断检视自己犯错的可能性</li>
+                    <li>7. 我了解这些长期成功原则的必要性，从未违反过</li>
+                </ul>
+            </div>
+            <div class="concept-box">
+                <h3>💡 全书一句话总结</h3>
+                <ul>
+                    <li>稳定盈利 = 概率思维 + 信念重塑 + 无情绪执行</li>
+                </ul>
+                <div class="quote" style="margin-top:15px;">
+                    "成功的交易80%靠心理，20%靠方法"
+                </div>
+            </div>
+        </div>
+
+        <div class="chapters">
+            <h2 class="chapter-title">📚 章节详细总结</h2>
+
+            <div class="chapter active" id="chapter1">
+                <div class="chapter-header" onclick="toggleChapter(this)">
+                    <h2>第1章：成功之道——基本分析、技术分析或者心理分析</h2>
+                    <span class="toggle">+</span>
+                </div>
+                <div class="chapter-content">
+                    <div class="section">
+                        <h4>基本分析</h4>
+                        <p>分析影响市场供需的所有外部因素，如经济数据、公司财报、行业趋势等。试图找出市场"应该"怎么走的合理依据。</p>
+                    </div>
+                    <div class="section">
+                        <h4>转向技术分析</h4>
+                        <p>技术分析认为市场价格已经反映了所有信息，通过研究图表模式和指标来预测未来价格走势。但即使有最好的技术分析系统，交易者仍然可能因为心理因素而亏损。</p>
+                    </div>
+                    <div class="section">
+                        <h4>转向心理分析</h4>
+                        <p>认识到交易中最大的变量不是市场，而是交易者自己。成功的关键不在于找到更好的分析方法，而在于培养正确的交易心态——接受风险、保持一致性、控制情绪。</p>
+                    </div>
+                    <div class="key-points">
+                        <h5>核心要点：</h5>
+                        <ul>
+                            <li>95%的交易错误起源于态度——即对亏损、犯错、错过机会和赚不到钱的态度</li>
+                            <li>我们在成长过程中学到的技术技巧，在交易中往往是不合适的</li>
+                            <li>交易者必须学习概率，并放弃我们生活中学到的技术技巧</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chapter" id="chapter2">
+                <div class="chapter-header" onclick="toggleChapter(this)">
+                    <h2>第2章：交易的诱惑与风险</h2>
+                    <span class="toggle">+</span>
+                </div>
+                <div class="chapter-content">
+                    <div class="section">
+                        <h4>吸引力</h4>
+                        <p>交易门槛低、自由度高、高回报可能性，对很多人极具诱惑力。似乎只要点击几下鼠标就能实现财务自由，这种假象吸引了大量新手。</p>
+                    </div>
+                    <div class="section">
+                        <h4>危险</h4>
+                        <p>统计表明95%的期货交易者会在第一年把钱亏光。危险来自于：市场的随机性、情绪失控、缺乏纪律、不接受风险。</p>
+                    </div>
+                    <div class="section">
+                        <h4>四个主要问题</h4>
+                        <p><strong>1. 不愿意制定规则：</strong>没有规则就没有约束，容易被情绪主导。</p>
+                        <p><strong>2. 不能负责：</strong>亏损时怪市场、怪消息、怪主力，就是不怪自己。</p>
+                        <p><strong>3. 沉迷于随机报酬：</strong>偶尔的随机获利强化了错误的行为模式。</p>
+                        <p><strong>4. 外在控制与内在控制：</strong>试图控制市场结果，而不是控制自己的行为。</p>
+                    </div>
+                    <div class="quote">
+                        "你看到的不是市场，是你的信念投射。"
+                    </div>
+                </div>
+            </div>
+
+            <div class="chapter" id="chapter3">
+                <div class="chapter-header" onclick="toggleChapter(this)">
+                    <h2>第3章：负责</h2>
+                    <span class="toggle">+</span>
+                </div>
+                <div class="chapter-content">
+                    <div class="section">
+                        <h4>塑造你的心理</h4>
+                        <p>承担责任意味着完全接受：所有交易结果都是自己的决策和执行导致的。亏损不怪市场，盈利也不感谢市场。责任是心理成熟的起点，推卸责任就永远无法改进。</p>
+                    </div>
+                    <div class="section">
+                        <h4>对亏损的反应</h4>
+                        <p>亏损时问自己："我错在哪里？规则是否执行？" 如果执行了规则但仍然亏损，那只是概率分布的正常结果，不需要自责。但如果没有执行规则，那就是需要修正的问题。</p>
+                    </div>
+                    <div class="section">
+                        <h4>赢家、输家、旺家和衰家</h4>
+                        <p>赢家关注长期一致性，输家关注单笔交易的对错；旺家靠运气短期获利但最终归还市场，衰家既没技术也没心态持续亏损。真正的区别在于是否对自己的结果100%负责。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chapter" id="chapter4">
+                <div class="chapter-header" onclick="toggleChapter(this)">
+                    <h2>第4章：持续一贯是一种心态</h2>
+                    <span class="toggle">+</span>
+                </div>
+                <div class="chapter-content">
+                    <div class="section">
+                        <h4>交易信念</h4>
+                        <p>稳定盈利不是靠神准预测，是长期一致地按优势与规则交易。一致性是心理状态，不是技术指标。宁可平庸规则一致执行，不要完美计划频繁违背。</p>
+                    </div>
+                    <div class="section">
+                        <h4>真正了解风险</h4>
+                        <p>风险不是抽象概念，而是实实在在可能发生的亏损。真正接受风险意味着：在进场前就定义好最大损失，并完全接受这个损失发生的可能性。</p>
+                    </div>
+                    <div class="section">
+                        <h4>调整你的心理</h4>
+                        <p>市场中性、无善恶、无意图；永远在概率下运行，不欠你利润。市场不针对你，你的痛苦来自预期与现实冲突。把市场当对手盘，不把它当朋友或敌人。</p>
+                    </div>
+                    <div class="key-points">
+                        <h5>核心要点：</h5>
+                        <ul>
+                            <li>概率思维：优势=某方向概率更高；单笔结果随机，长期优势必胜</li>
+                            <li>交易是赌场思维，不是算命</li>
+                            <li>不追求每笔赚，追求大数定律下的期望收益为正</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chapter" id="chapter5">
+                <div class="chapter-header" onclick="toggleChapter(this)">
+                    <h2>第5章：认知的动力</h2>
+                    <span class="toggle">+</span>
+                </div>
+                <div class="chapter-content">
+                    <div class="section">
+                        <h4>为你的心智软件除虫</h4>
+                        <p>心智会过滤、扭曲、选择性接收信息——只看符合预期的，忽略风险。你看到的不是市场，是你的信念投射。用客观规则替代主观判断，避免"我觉得"。</p>
+                    </div>
+                    <div class="section">
+                        <h4>认知与学习</h4>
+                        <p>我们只能看到我们已经知道的东西。真正的学习需要开放心态，承认自己不知道，才能真正看到市场在告诉我们什么。痛苦和亏损往往是心智抗拒改变的信号。</p>
+                    </div>
+                    <div class="section">
+                        <h4>联想的力量</h4>
+                        <p>大脑会自动建立联想：某次亏损后看到某个指标就害怕，某次盈利后看到某种形态就兴奋。这些联想往往是非理性的，会干扰客观判断。需要觉察并打破这些错误联想。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chapter" id="chapter6">
+                <div class="chapter-header" onclick="toggleChapter(this)">
+                    <h2>第6章：市场观点</h2>
+                    <span class="toggle">+</span>
+                </div>
+                <div class="chapter-content">
+                    <div class="section">
+                        <h4>不确定原则</h4>
+                        <p>接受市场的不确定性是交易的前提。任何事情都可能在任何时刻发生。试图"确定"市场下一步会怎样是徒劳的，只会导致痛苦和失望。</p>
+                    </div>
+                    <div class="section">
+                        <h4>市场的最基本特性</h4>
+                        <p>市场表现方式几乎毫无限制——价格可以用任何组合方式来表达自己。没有"应该"，没有"合理"，只有"实际发生了什么"。市场总是对的，个人观点往往毫无意义。</p>
+                    </div>
+                    <div class="quote">
+                        "市场中性，它不关心你是赚还是亏，它只是按自己的规律运行。"
+                    </div>
+                </div>
+            </div>
+
+            <div class="chapter" id="chapter7">
+                <div class="chapter-header" onclick="toggleChapter(this)">
+                    <h2>第7章：交易者的优势：从概率角度思考</h2>
+                    <span class="toggle">+</span>
+                </div>
+                <div class="chapter-content">
+                    <div class="section">
+                        <h4>矛盾：随机的结果和长期的成绩</h4>
+                        <p>单笔交易结果是随机的，但在大数定律下，具有正期望的系统会产生稳定收益。赌场老板不关心单笔输赢，他们关心的是有足够多的次数让概率发挥作用。交易者应该向赌场学习。</p>
+                    </div>
+                    <div class="section">
+                        <h4>当下的交易</h4>
+                        <p>市场中的每一刻都具有独一无二的性质。过去的经验不能完全套用现在，更不能预测未来。活在当下，根据规则执行，不被过去的盈亏影响。</p>
+                    </div>
+                    <div class="section">
+                        <h4>管理期望与消除情感风险</h4>
+                        <p>不要对单笔交易抱有过高期望，接受合理的盈亏比。当你完全接受风险并定义了止损，情感上的风险就消失了——你知道最坏的情况是什么，而且你能承受。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chapter" id="chapter8">
+                <div class="chapter-header" onclick="toggleChapter(this)">
+                    <h2>第8章：发挥信念的优势</h2>
+                    <span class="toggle">+</span>
+                </div>
+                <div class="chapter-content">
+                    <div class="section">
+                        <h4>核心信念定义</h4>
+                        <p><strong>目标：</strong>不是赚钱，而是持续一致地执行你的系统。</p>
+                        <p><strong>技巧：</strong>根据规则执行交易的能力，与市场分析能力同等重要。</p>
+                        <p><strong>开放的心态：</strong>市场告诉什么就接受什么，不抗拒，不辩解。</p>
+                        <p><strong>客观性：</strong>看到是什么，而不是你想看到什么。</p>
+                        <p><strong>"当下"的意义：</strong>每笔交易都是独立的，不带上次的情绪。</p>
+                    </div>
+                    <div class="section">
+                        <h4>走向"顺境"</h4>
+                        <p>当你完全内化了这些信念，交易就会变得自然流畅——不需要强迫自己遵守纪律，纪律已经成为你的一部分。这就是交易者追求的"顺境"或"状态"。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chapter" id="chapter9">
+                <div class="chapter-header" onclick="toggleChapter(this)">
+                    <h2>第9章：信念的本质</h2>
+                    <span class="toggle">+</span>
+                </div>
+                <div class="chapter-content">
+                    <div class="section">
+                        <h4>信念的起源</h4>
+                        <p>信念来自我们的成长环境、教育、个人经历。在生活中有用的信念（如"不要犯错"）在交易中往往是限制性信念。</p>
+                    </div>
+                    <div class="section">
+                        <h4>信念对人生的影响</h4>
+                        <p>信念是心智地图，决定感知、决策、行动。你赚不到你信念之外的钱。如果你的信念说"赚钱很难"，那么即使有机会你也会错过，你的系统会自我实现这个预言。</p>
+                    </div>
+                    <div class="section">
+                        <h4>信念与事实</h4>
+                        <p>信念不等于事实，但信念会过滤事实。常见负面信念：怕错、怕亏、怕错过、怕利润回吐——这些导致过早止盈、不止损、重仓、追涨杀跌。</p>
+                    </div>
+                    <div class="key-points">
+                        <h5>行动建议：</h5>
+                        <ul>
+                            <li>列出3条限制你盈利的信念，逐条替换</li>
+                            <li>把"怕亏损"换成"我接受风险并提前定义风险"</li>
+                            <li>把"我不能错"换成"错误是交易的正常成本"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chapter" id="chapter10">
+                <div class="chapter-header" onclick="toggleChapter(this)">
+                    <h2>第10章：信念对交易的影响</h2>
+                    <span class="toggle">+</span>
+                </div>
+                <div class="chapter-content">
+                    <div class="section">
+                        <h4>信念的基本特性</h4>
+                        <p>信念一旦形成就很难改变，但可以被新的信念覆盖。情绪是信念的外在反应——当你感到恐惧或贪婪时，问问自己："是什么信念导致了这种情绪？"</p>
+                    </div>
+                    <div class="section">
+                        <h4>自我评估与交易</h4>
+                        <p>自我价值感深刻影响交易结果。潜意识中的不配得感、完美主义会让你主动破坏盈利——赚钱了就想快点落袋为安（怕利润回吐），或者突然违反规则（潜意识不想成功）。</p>
+                    </div>
+                    <div class="quote">
+                        "最可怕的敌人不是市场，而是你自己。"
+                    </div>
+                </div>
+            </div>
+
+            <div class="chapter" id="chapter11">
+                <div class="chapter-header" onclick="toggleChapter(this)">
+                    <h2>第11章：像交易者一样思考</h2>
+                    <span class="toggle">+</span>
+                </div>
+                <div class="chapter-content">
+                    <div class="section">
+                        <h4>赢家思维五大核心事实</h4>
+                        <p>1. 任何事都可能发生<br>
+                        2. 不必知道下一步也能赚钱<br>
+                        3. 优势盈亏随机分布<br>
+                        4. 优势是概率差<br>
+                        5. 每一刻独一无二</p>
+                        <p style="margin-top:10px;"><em>（建议每天开盘前默读5遍，内化为本能）</em></p>
+                    </div>
+                    <div class="section">
+                        <h4>交易的三个阶段</h4>
+                        <p><strong>1. 机械阶段：</strong>严格执行，不思考。建立纪律的基础。先做100笔机械执行，再谈灵活。</p>
+                        <p><strong>2. 一致阶段：</strong>稳定执行，形成习惯。不再需要意志力强迫自己。</p>
+                        <p><strong>3. 直觉阶段：</strong>规则内化，行云流水。真正的交易艺术家。</p>
+                    </div>
+                    <div class="section">
+                        <h4>自律的角色与创造信念</h4>
+                        <p>自律是一种技术——像其他技术一样可以学习和训练。创造长期获利的信念：不是一蹴而就，而是通过一次次正确的行动逐步建立。相信持续一致性，然后用行动去强化这个信念。</p>
+                    </div>
+                    <div class="key-points">
+                        <h5>全书最终建议：</h5>
+                        <ul>
+                            <li>风险无需恐惧：恐惧来自未知与不接受；接受并定义风险，恐惧消失</li>
+                            <li>止损=风险有形化=消除恐惧。每笔必设止损，把最大损失写死</li>
+                            <li>正确态度：接受风险、不期待、不抗拒、专注执行</li>
+                            <li>亏损后问：规则执行了吗？执行了就没错</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 学习资源推荐 -->
+            <div class="chapter" id="resources" style="margin-bottom: 30px; background: #fafbfc; border-radius: 12px; overflow: hidden; border-left: 5px solid #667eea;">
+                <div class="chapter-header" onclick="toggleChapter(this)" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 18px 25px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="background: rgba(255,255,255,0.2); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9em; font-weight: bold;">12</div>
+                        <h2 style="font-size: 1.2em;">学习资源推荐</h2>
+                    </div>
+                    <span class="toggle" style="font-size: 1.5em; transition: transform 0.3s;">+</span>
+                </div>
+                <div class="chapter-content" style="padding: 25px;">
+
+                    <div style="margin-bottom: 25px;">
+                        <h4 style="color: #764ba2; margin-bottom: 15px; font-size: 1.1em; display: flex; align-items: center; gap: 8px;">
+                            <span>📹</span>核心学习视频
+                        </h4>
+                        
+                        <div style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%); border-radius: 12px; padding: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <div style="background: #3d3d5c; width: 80px; height: 80px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                    <span style="font-size: 2.5em;">📺</span>
+                                </div>
+                                <div>
+                                    <h5 style="color: white; font-size: 1.1em; margin-bottom: 5px;">【交易心理分析】全书深度解读（完整版）</h5>
+                                    <p style="color: #aaa; font-size: 0.9em;">从心理基础到实战应用，系统讲解道格拉斯的交易哲学</p>
+                                </div>
+                            </div>
+                            <a href="https://www.bilibili.com/video/BV1nQ4y1S7x9/?spm_id_from=333.337.search-card.all.click" target="_blank" style="background: linear-gradient(135deg, #ff6b6b 0%, #f05060 100%); color: white; padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: 500; transition: transform 0.3s;">
+                                观看视频
+                            </a>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 25px;">
+                        <h4 style="color: #764ba2; margin-bottom: 15px; font-size: 1.1em; display: flex; align-items: center; gap: 8px;">
+                            <span>📚</span>学习路线建议
+                        </h4>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div style="background: #e8eaed; border-radius: 8px; padding: 18px;">
+                                <h5 style="color: #667eea; font-size: 1em; margin-bottom: 8px; font-weight: 600;">第一阶段：建立认知（1-2周）</h5>
+                                <p style="color: #555; font-size: 0.95em;">通读全书，重点理解五大基本事实和七大赢家信念，建立概率思维基础</p>
+                            </div>
+                            
+                            <div style="background: #e8eaed; border-radius: 8px; padding: 18px;">
+                                <h5 style="color: #667eea; font-size: 1em; margin-bottom: 8px; font-weight: 600;">第二阶段：心理训练（2-4周）</h5>
+                                <p style="color: #555; font-size: 0.95em;">结合书中方法进行自我评估，识别并替换限制性信念，开始写交易日志</p>
+                            </div>
+                            
+                            <div style="background: #e8eaed; border-radius: 8px; padding: 18px;">
+                                <h5 style="color: #667eea; font-size: 1em; margin-bottom: 8px; font-weight: 600;">第三阶段：实战应用（持续进行）</h5>
+                                <p style="color: #555; font-size: 0.95em;">在模拟盘或实盘中实践，严格执行规则，定期复盘改进，逐步形成一致性习惯</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 25px;">
+                        <h4 style="color: #764ba2; margin-bottom: 15px; font-size: 1.1em; display: flex; align-items: center; gap: 8px;">
+                            <span>💡</span>推荐学习方法
+                        </h4>
+                        
+                        <div style="background: #f8f9fa; border-radius: 8px; padding: 20px;">
+                            <ol style="color: #555; line-height: 2; padding-left: 20px;">
+                                <li><strong>精读原著：</strong>反复研读《交易心理分析》，重点章节做笔记</li>
+                                <li><strong>自我检测：</strong>对照书中的态度调查表，了解自己的心理状态</li>
+                                <li><strong>模拟练习：</strong>先用模拟盘验证心理承受能力</li>
+                                <li><strong>日志记录：</strong>每次交易记录情绪变化和决策过程</li>
+                                <li><strong>定期复盘：</strong>每周回顾交易记录，总结心理模式</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="resource-list">
+                        <h4>🌐 在线学习资源</h4>
+                        <ul>
+                            <li><span><strong>Investopedia 交易心理专区</strong> - 专业的金融知识平台，有丰富的交易心理文章</span></li>
+                            <li><span><strong>Trading Psychology Edge</strong> - 专业交易心理训练网站</span></li>
+                            <li><span><strong>Various Trading Podcasts</strong> - 各类交易播客，听成功交易者分享心得</span></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>《交易心理分析》 Trading in the Zone | 马克·道格拉斯 (Mark Douglas)</p>
+            <p style="margin-top:8px; color:#999;">章节总结生成于 2026年 | 稳定盈利 = 概率思维 + 信念重塑 + 无情绪执行</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleChapter(header) {
+            const chapter = header.parentElement;
+            const allChapters = document.querySelectorAll('.chapter');
+            
+            if (chapter.classList.contains('active')) {
+                chapter.classList.remove('active');
+            } else {
+                allChapters.forEach(ch => ch.classList.remove('active'));
+                chapter.classList.add('active');
+            }
+        }
+
+        // 导航栏点击跳转
+        document.querySelectorAll('.navbar a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    // 更新导航栏活跃状态
+                    document.querySelectorAll('.navbar a').forEach(a => a.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 如果是章节，自动展开
+                    if (targetElement.classList.contains('chapter')) {
+                        document.querySelectorAll('.chapter').forEach(ch => ch.classList.remove('active'));
+                        targetElement.classList.add('active');
+                    }
+                    
+                    // 滚动到目标位置（考虑导航栏高度）
+                    const navHeight = document.querySelector('.navbar').offsetHeight;
+                    const targetPosition = targetElement.offsetTop - navHeight - 20;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // 滚动监听，更新导航栏活跃状态
+        window.addEventListener('scroll', function() {
+            const sections = ['core-concepts', 'chapter1', 'chapter2', 'chapter3', 'chapter4', 'chapter5', 'chapter6', 'chapter7', 'chapter8', 'chapter9', 'chapter10', 'chapter11', 'resources'];
+            const navHeight = document.querySelector('.navbar').offsetHeight;
+            
+            for (let i = sections.length - 1; i >= 0; i--) {
+                const section = document.getElementById(sections[i]);
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top <= navHeight + 100) {
+                        document.querySelectorAll('.navbar a').forEach(link => link.classList.remove('active'));
+                        const activeLink = document.querySelector(`.navbar a[href="#${sections[i]}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                        break;
+                    }
+                }
+            }
+        });
+
+        document.querySelectorAll('.chapter').forEach((chapter, index) => {
+            chapter.style.animationDelay = `${index * 0.1}s`;
+        });
+    </script>
+</body>
+</html>

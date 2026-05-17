@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>健身饮食计划</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .meal-plan {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .plan-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #eee;
+        }
+
+        .plan-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .plan-icon.red {
+            background-color: #e74c3c;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+        }
+
+        .plan-icon.yellow {
+            background-color: #f1c40f;
+            box-shadow: 0 0 0 3px rgba(241, 196, 15, 0.2);
+        }
+
+        .plan-icon.blue {
+            background-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .plan-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .principle {
+            background: #f8f9fa;
+            padding: 1.2rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #667eea;
+        }
+
+        .principle p {
+            color: #7f8c8d;
+            margin: 0;
+            line-height: 1.7;
+        }
+
+        .meal-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .meal-item {
+            display: flex;
+            gap: 1rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.2s;
+        }
+
+        .meal-item:hover {
+            background: #fafafa;
+        }
+
+        .meal-item:last-child {
+            border-bottom: none;
+        }
+
+        .meal-time {
+            font-weight: 600;
+            color: #667eea;
+            min-width: 100px;
+            flex-shrink: 0;
+        }
+
+        .meal-content {
+            color: #34495e;
+            line-height: 1.6;
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .schedule-table th,
+        .schedule-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .schedule-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .schedule-table tr:hover {
+            background: #fafafa;
+        }
+
+        .schedule-table .day-type {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .schedule-table .day-type span {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+        }
+
+        .tips-section {
+            background: linear-gradient(135deg, #fff8e7 0%, #fff3cd 100%);
+            border-left: 4px solid #f59e0b;
+        }
+
+        .tips-section .plan-title {
+            color: #92400e;
+        }
+
+        .tips-content {
+            color: #78350f;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .rules-section {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-left: 4px solid #22c55e;
+        }
+
+        .rules-section .plan-title {
+            color: #166534;
+        }
+
+        .rules-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .rules-list li {
+            padding: 1rem 0;
+            border-bottom: 1px solid #d1fae5;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .rules-list li:last-child {
+            border-bottom: none;
+        }
+
+        .rule-number {
+            width: 28px;
+            height: 28px;
+            background: #22c55e;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .rule-content {
+            color: #166534;
+            line-height: 1.7;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="hero">
+            <h1>健身饮食计划</h1>
+            <p>"无碳日·低碳日·高碳日循环</p>
+        </div>
+
+        <div class="meal-plan">
+            <div class="plan-header">
+                <div class="plan-icon red"></div>
+                <h2 class="plan-title">无碳日：纯爬坡有氧 + 核心（空糖燃脂模式）</h2>
+            </div>
+            <div class="principle">
+                <p><strong>核心原则：</strong>不吃全麦面包与米饭。16:00用半勺蛋白粉垫底，训练中用BCAA严防肌肉分解。</p>
+            </div>
+            <ul class="meal-list">
+                <li class="meal-item">
+                    <span class="meal-time">08:00</span>
+                    <span class="meal-content">早餐：水煮蛋 2个 + 纯蛋白 1个 + 蓝莓 10颗</span>
+                </li>
+                <li class="meal-item">
+                    <span class="meal-time">12:00</span>
+                    <span class="meal-content">午餐：去皮鸡腿肉 150g + 小乳瓜 2根 + 鱼油 1粒 + 维生素 1片</span>
+                </li>
+                <li class="meal-item">
+                    <span class="meal-time">16:00</span>
+                    <span class="meal-content">下午茶：蛋白粉 半勺 + 圣女果 5颗</span>
+                </li>
+                <li class="meal-item">
+                    <span class="meal-time">17:30</span>
+                    <span class="meal-content">练前：左旋肉碱 1份 + 电解质水</span>
+                </li>
+                <li class="meal-item">
+                    <span class="meal-time">18:00-21:00</span>
+                    <span class="meal-content">训练中：支链氨基酸（BCAA）5-10g泡水，全程小口慢饮</span>
+                </li>
+                <li class="meal-item">
+                    <span class="meal-time">21:15</span>
+                    <span class="meal-content">练后立刻：蛋白粉 1勺 + 谷氨酰胺肽 5g</span>
+                </li>
+                <li class="meal-item">
+                    <span class="meal-time">21:45</span>
+                    <span class="meal-content">晚餐：去皮鸡腿肉 100g + 小乳瓜 1根</span>
+                </li>
+                <li class="meal-item">
+                    <span class="meal-time">23:00</span>
+                    <span class="meal-content">睡前：锌镁片</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="meal-plan">
+            <div class="plan-header">
+                <div class="plan-icon yellow"></div>
+                <h2 class="plan-title">低碳日：练胸 + 肩前束 + 35分爬坡（力量燃脂复合模式）</h2>
+            </div>
+            <div class="principle">
+                <p><strong>核心原则：</strong>引入。16:30吃2片为18:00练胸提供长效泵感；练后不再吃主食。</p>
+            </div>
+            <ul class="meal-list">
+                <li class="meal-item">
+                    <span class="meal-time">08:00</span>
+                    <span class="meal-content">早餐：全麦面包 1片 + 水煮蛋 2个 + 蓝莓 10颗</span>
+                </li>
+                <li class="meal-item">
+                    <span class="meal-time">12:00</span>
+                    <span class="meal-content">午餐：去皮鸡腿肉 150g + 小乳瓜 2根 + 圣女果 5颗 + 鱼油 1粒 + 维生素 1片</span>
+                </li>
+                <li class="meal-item">
+                    <span class="meal-time">16:30</span>
+                    <span class="meal-content">下午茶（关键练前充能）：全麦面包 2片 + 蛋白粉 半勺</span>
+                </li>
+                <li class="meal-item">
+                    <span class="meal-time">17:30</span>
+                    <span class="meal-content">练前：左旋肉碱 1份 + 肌酸 3-5g</span>
+                </li>
+                <li class="meal-item">
+                    <span class="meal-time">18:00-21:00</span>
+                    <span class="meal-content">训练中：电解质粉泡水喝</span>
+                </li>
+                <li class="meal-item">
+                    <span class="meal-time">21:15</span>
+                    <span class="meal-content">练后立刻：蛋白粉 1勺 + 谷氨酰胺肽 5g</span>
+                </li>
+                <li class="meal-item">
+                    <span class="meal-time">21:45</span>
+                    <span class="meal-content">晚餐：去皮鸡腿肉 120g + 小乳瓜 1根 + 圣女果 3颗</span>
+                </li>
+                <li class="meal-item">
+                    <span class="meal-time">23:00</span>
+                    <span class="meal-content">睡前：锌镁片</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="meal-plan">
+            <div class="plan-header">
+                <div class="plan-icon blue"></div>
+                <h2 class="plan-title">高碳日：大重量练背 + 肩中后束（纯充糖高爆模式）</h2>
+            </div>
+            <div class="principle">
+                <p><strong>核心原则：</strong>取消长有氧。中午和21:45练后餐吃大份量米饭充能；作为早餐和下午茶。</p>
+            </div>
+            <ul class="meal-list">
+                <li class="meal-item">
+                    <span class="meal-time">08:00</span>
+                    <span class="meal-content">早餐：全麦面包 2片 + 水煮蛋 2个 + 蓝莓 15颗</span>
+                </li>
+                <li class="meal-item">
+                    <span class="meal-time">12:00</span>
+                    <span class="meal-content">午餐：米饭 1碗（约150g熟重） + 去皮鸡腿肉 120g + 小乳瓜 1根 + 鱼油 1粒 + 维生素 1片</span>
+                </li>
+                <li class="meal-item">
+                    <span class="meal-time">16:30</span>
+                    <span class="meal-content">下午茶（练前大充碳）：全麦面包 2片 + 纯蛋白 2个</span>
+                </li>
+                <li class="meal-item">
+                    <span class="meal-time">17:30</span>
+                    <span class="meal-content">练前：肌酸 5g</span>
+                </li>
+                <li class="meal-item">
+                    <span class="meal-time">18:00-21:00</span>
+                    <span class="meal-content">训练中：小口补充白开水</span>
+                </li>
+                <li class="meal-item">
+                    <span class="meal-time">21:15</span>
+                    <span class="meal-content">练后立刻：蛋白粉 1勺 + 谷氨酰胺肽 5g + 圣女果 5颗</span>
+                </li>
+                <li class="meal-item">
+                    <span class="meal-time">21:45</span>
+                    <span class="meal-content">晚餐（黄金练后大补餐）：米饭 1碗（约150g-200g熟重） + 去皮鸡腿肉 100g + 小乳瓜 1根</span>
+                </li>
+                <li class="meal-item">
+                    <span class="meal-time">23:00</span>
+                    <span class="meal-content">睡前：锌镁片</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="meal-plan tips-section">
+            <div class="plan-header">
+                <span style="font-size: 1.5rem;">⚠️</span>
+                <h2 class="plan-title">"天天练"的终极防伤病叮嘱</h2>
+            </div>
+            <div class="tips-content">
+                <p>全麦面包饱腹感极强。在低碳日的16:30吃完2片面包加蛋白粉后，如果18:00运动时胃部仍有饱胀感，可以将下午茶提前到16:00进行。因为您不休息，肠胃的恢复速度直接决定了肌肉的恢复速度。</p>
+                <p>为了让这个方案更稳定地落地，您希望这三天的循环是完全无脑循环（无-低-高-无-低-高），还是想配合具体的周一到周日工作日来做一个固定周期排班？</p>
+            </div>
+        </div>
+
+        <div class="meal-plan">
+            <div class="plan-header">
+                <span style="font-size: 1.5rem;">📅</span>
+                <h2 class="plan-title">无脑滚动循环排班示例（以明天周一开始为例）</h2>
+            </div>
+            <div class="table-container">
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>日期</th>
+                            <th>饮食日类型</th>
+                            <th>晚上18:00-21:00对应训练</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>周一</td>
+                            <td><div class="day-type"><span style="background: #e74c3c;"></span>无碳日</div></td>
+                            <td>纯爬坡有氧40分钟 + 腹肌核心/二头</td>
+                        </tr>
+                        <tr>
+                            <td>周二</td>
+                            <td><div class="day-type"><span style="background: #f1c40f;"></span>低碳日</div></td>
+                            <td>练胸 + 肩前束 + 35分钟爬坡</td>
+                        </tr>
+                        <tr>
+                            <td>周三</td>
+                            <td><div class="day-type"><span style="background: #3498db;"></span>高碳日</div></td>
+                            <td>轰炸背部 + 肩中后束（不上有氧，拼大重量）</td>
+                        </tr>
+                        <tr>
+                            <td>周四</td>
+                            <td><div class="day-type"><span style="background: #e74c3c;"></span>无碳日</div></td>
+                            <td>纯爬坡有氧40分钟 + 腹肌核心/二头</td>
+                        </tr>
+                        <tr>
+                            <td>周五</td>
+                            <td><div class="day-type"><span style="background: #f1c40f;"></span>低碳日</div></td>
+                            <td>练胸 + 肩前束 + 35分钟爬坡</td>
+                        </tr>
+                        <tr>
+                            <td>周六</td>
+                            <td><div class="day-type"><span style="background: #3498db;"></span>高碳日</div></td>
+                            <td>轰炸背部 + 肩中后束（不上有氧，拼大重量）</td>
+                        </tr>
+                        <tr>
+                            <td>周日</td>
+                            <td><div class="day-type"><span style="background: #e74c3c;"></span>无碳日</div></td>
+                            <td>循环重启……</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="meal-plan rules-section">
+            <div class="plan-header">
+                <span style="font-size: 1.5rem;">🔧</span>
+                <h2 class="plan-title">"无脑不休息"循环的最后3个铁律</h2>
+            </div>
+            <ul class="rules-list">
+                <li>
+                    <span class="rule-number">1</span>
+                    <span class="rule-content"><strong>高碳日必须拉满重量：</strong>高碳日千万不要因为没有安排有氧而感到愧疚。这天您的任务就是把米饭和转化为力量，在练背时挑战更重的哑铃和杠铃，把肌肉围度撑起来。</span>
+                </li>
+                <li>
+                    <span class="rule-number">2</span>
+                    <span class="rule-content"><strong>切勿擅自断水：</strong>天天高强度训练加上高频率有氧，身体对水的需求量极大。除了训练中的电解质，全天白开水请务必喝够3000ml，水分不足会直接导致掉肌肉和关节受伤。</span>
+                </li>
+                <li>
+                    <span class="rule-number">3</span>
+                    <span class="rule-content"><strong>倾听中枢神经的信号：</strong>由于您完全不休息，如果连续循环3-4周后，发现自己出现失眠、晨搏变快、或高碳日练背也完全没有力量，说明神经疲劳了。到时候请立刻告诉我，我们只需要进行一次"减载循环"（训练重量减半，饮食照旧），就能在不长胖的前提下让神经满血复活。</span>
+                </li>
+            </ul>
+        </div>
+    </main>
+</body>
+</html>

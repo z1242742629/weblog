@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宁夏 4 天 3 晚「纯北向零折返」深度攻略</title>
+<style>
+  :root{
+    --sand:#e8c98a;
+    --sand-deep:#c9954a;
+    --desert:#d9a441;
+    --river:#2a7fb8;
+    --river-deep:#1c5a85;
+    --ink:#2b2620;
+    --paper:#fbf6ec;
+    --paper-2:#f4ecdc;
+    --gold:#b8862f;
+    --green:#3a8a5f;
+    --red:#c0392b;
+    --line:#e3d6bc;
+    --shadow:0 8px 30px rgba(80,55,20,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",system-ui,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+
+  /* NAV */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(251,246,236,.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    padding:10px 18px;
+    display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+  }
+  nav .brand{font-weight:800;color:var(--gold);font-size:16px;letter-spacing:.5px;white-space:nowrap}
+  nav .links{display:flex;gap:14px;flex-wrap:wrap;font-size:14px}
+  nav .links a{color:#6b5d44;transition:.2s;padding:4px 8px;border-radius:8px}
+  nav .links a:hover{background:var(--sand);color:var(--ink)}
+
+  /* HERO */
+  header.hero{
+    position:relative;
+    padding:64px 22px 70px;
+    color:#fff;
+    text-align:center;
+    background:
+      radial-gradient(120% 120% at 80% -10%, rgba(42,127,184,.55), transparent 55%),
+      linear-gradient(160deg,#1c5a85 0%,#2a7fb8 38%,#c9954a 78%,#e8c98a 100%);
+    overflow:hidden;
+  }
+  header.hero::after{
+    content:"";position:absolute;left:0;right:0;bottom:0;height:70px;
+    background:linear-gradient(transparent,var(--paper));
+  }
+  .hero h1{font-size:clamp(26px,5vw,44px);font-weight:900;letter-spacing:1px;
+    text-shadow:0 3px 14px rgba(0,0,0,.35);margin-bottom:14px}
+  .hero .sub{font-size:15px;opacity:.95;max-width:680px;margin:0 auto 22px}
+  .hero .tags{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .hero .tag{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);
+    padding:6px 14px;border-radius:30px;font-size:13px;font-weight:600;backdrop-filter:blur(4px)}
+
+  /* STATS */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:14px;max-width:1000px;margin:-46px auto 0;position:relative;z-index:5;padding:0 18px}
+  .stat{background:#fff;border-radius:16px;padding:18px 16px;text-align:center;box-shadow:var(--shadow);
+    border:1px solid var(--line)}
+  .stat b{display:block;font-size:24px;color:var(--gold);font-weight:900}
+  .stat span{font-size:12.5px;color:#7a6c52}
+
+  /* SECTION */
+  section{max-width:1040px;margin:0 auto;padding:48px 20px 8px}
+  .sec-head{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+  .sec-head .num{background:var(--gold);color:#fff;width:38px;height:38px;border-radius:11px;
+    display:grid;place-items:center;font-weight:800;font-size:18px;flex:none;box-shadow:var(--shadow)}
+  .sec-head h2{font-size:23px;font-weight:800;color:var(--ink)}
+  .sec-head .en{font-size:12px;color:#a38c63;letter-spacing:2px;text-transform:uppercase;display:block;font-weight:600}
+
+  /* OVERVIEW CARDS */
+  .ov-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:760px){.ov-grid{grid-template-columns:1fr}}
+  .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 20px;box-shadow:var(--shadow)}
+  .card h3{font-size:16px;margin-bottom:10px;color:var(--river-deep);display:flex;align-items:center;gap:8px}
+  .card h3 .ic{width:26px;height:26px;border-radius:8px;background:var(--paper-2);display:grid;place-items:center;font-size:15px}
+  .card p{font-size:14px;color:#534838;margin-bottom:6px}
+  .hl-list{list-style:none;display:grid;gap:8px}
+  .hl-list li{font-size:14px;padding-left:24px;position:relative;color:#463c2c}
+  .hl-list li::before{content:"◆";position:absolute;left:0;top:0;color:var(--desert)}
+
+  /* TRANSPORT FLOW */
+  .flow{background:linear-gradient(135deg,#fff,#fdf7ea);border:1px solid var(--line);
+    border-radius:16px;padding:22px;box-shadow:var(--shadow)}
+  .flow .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .flow .node{background:var(--river);color:#fff;padding:10px 16px;border-radius:12px;font-weight:700;font-size:14px;white-space:nowrap}
+  .flow .node.g{background:var(--gold)}
+  .flow .arrow{color:var(--sand-deep);font-weight:800;font-size:20px;padding:0 4px}
+  .flow .mid{color:#8a785a;font-size:13px;padding:10px 0}
+  .flow .leg{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+  .flow .leg span{background:var(--paper-2);border:1px dashed var(--sand-deep);border-radius:20px;
+    padding:5px 12px;font-size:12.5px;color:#6b5a3c}
+
+  /* DAY TIMELINE */
+  .day{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;
+    box-shadow:var(--shadow);margin-bottom:26px}
+  .day .top{background:linear-gradient(120deg,var(--river-deep),var(--river));
+    color:#fff;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+  .day .top .d{font-size:20px;font-weight:900;letter-spacing:.5px}
+  .day .top .theme{font-size:13.5px;opacity:.95}
+  .day .top .km{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);
+    padding:4px 12px;border-radius:20px;font-size:13px;font-weight:700;white-space:nowrap}
+  .day .body{padding:6px 22px 22px}
+  .tl{position:relative;margin-top:14px;padding-left:26px}
+  .tl::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:3px;
+    background:linear-gradient(var(--sand),var(--river))}
+  .ev{position:relative;padding:12px 0 12px 4px;border-bottom:1px dashed var(--line)}
+  .ev:last-child{border-bottom:none}
+  .ev::before{content:"";position:absolute;left:-25px;top:18px;width:13px;height:13px;border-radius:50%;
+    background:#fff;border:3px solid var(--desert);box-shadow:0 0 0 3px rgba(217,164,65,.18)}
+  .ev .t{font-size:12.5px;font-weight:800;color:var(--gold);letter-spacing:.5px}
+  .ev .h{font-size:15.5px;font-weight:800;margin:2px 0 4px;color:var(--ink)}
+  .ev .d{font-size:13.5px;color:#574c3a}
+  .ev .d b{color:var(--river-deep)}
+  .pill{display:inline-block;background:var(--paper-2);border:1px solid var(--line);
+    color:#7a653f;font-size:12px;padding:2px 9px;border-radius:20px;margin:3px 4px 0 0}
+  .warn{background:#fff6f0;border-left:4px solid var(--red);padding:10px 14px;border-radius:0 10px 10px 0;
+    font-size:13px;color:#8a3b2b;margin-top:8px}
+  .tip{background:#f1f8f2;border-left:4px solid var(--green);padding:10px 14px;border-radius:0 10px 10px 0;
+    font-size:13px;color:#2f6b48;margin-top:8px}
+  .charge{background:#eef5fb;border-left:4px solid var(--river);padding:10px 14px;border-radius:0 10px 10px 0;
+    font-size:13px;color:var(--river-deep);margin-top:8px}
+
+  /* TABLES */
+  .tbl-wrap{overflow-x:auto;border-radius:14px;border:1px solid var(--line);box-shadow:var(--shadow)}
+  table{border-collapse:collapse;width:100%;min-width:520px;background:#fff;font-size:13.5px}
+  th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line)}
+  th{background:var(--paper-2);color:#6b5a3c;font-weight:800;white-space:nowrap}
+  tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:#fdf9f0}
+  td b{color:var(--river-deep)}
+
+  /* TIPS GRID */
+  .tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  .tip-c{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow)}
+  .tip-c h4{font-size:15px;color:var(--gold);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+  .tip-c p{font-size:13px;color:#574c3a}
+
+  /* FOOTER */
+  footer{text-align:center;padding:40px 20px 50px;color:#9a886a;font-size:13px}
+  footer .line{width:60px;height:3px;background:var(--desert);margin:0 auto 16px;border-radius:3px}
+
+  /* back to top */
+  #top{position:fixed;right:18px;bottom:18px;width:46px;height:46px;border-radius:50%;
+    background:var(--gold);color:#fff;display:grid;place-items:center;font-size:20px;
+    box-shadow:var(--shadow);cursor:pointer;opacity:0;pointer-events:none;transition:.3s;z-index:60}
+  #top.show{opacity:1;pointer-events:auto}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">🐫 宁夏纯北向攻略</div>
+  <div class="links">
+    <a href="#overview">行程总览</a>
+    <a href="#day1">Day1 中卫</a>
+    <a href="#day2">Day2 青铜峡</a>
+    <a href="#day3">Day3 银川</a>
+    <a href="#day4">Day4 岩画</a>
+    <a href="#charge">电车补能</a>
+    <a href="#cost">费用说明</a>
+    <a href="#tips">出行贴士</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <h1>宁夏 4 天 3 晚「纯北向零折返」深度攻略</h1>
+  <p class="sub">中卫南进 · 银川北出 · 高铁直达 · 电车友好 —— 100% 不走回头路，越玩越松弛</p>
+  <div class="tags">
+    <span class="tag">🚄 高铁直达</span>
+    <span class="tag">🔋 电车零焦虑</span>
+    <span class="tag">🏜️ 大漠黄河</span>
+    <span class="tag">🏯 西夏文脉</span>
+    <span class="tag">👨‍👩‍👧 家庭友好</span>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat"><b>4天3晚</b><span>深度不赶路</span></div>
+  <div class="stat"><b>约400km</b><span>含66号公路支线</span></div>
+  <div class="stat"><b>&lt;100km</b><span>日均行驶</span></div>
+  <div class="stat"><b>4大王牌</b><span>一次打卡</span></div>
+  <div class="stat"><b>100%</b><span>充电桩覆盖</span></div>
+  <div class="stat"><b>≈2640元</b><span>人均预算</span></div>
+</div>
+
+<!-- ===== 行程总览 ===== -->
+<section id="overview">
+  <div class="sec-head">
+    <div class="num">01</div>
+    <div><h2>行程总览</h2><span class="en">Overview</span></div>
+  </div>
+
+  <div class="flow" style="margin-bottom:18px">
+    <div class="row">
+      <span class="node">西安北</span><span class="arrow">→</span>
+      <span class="node">中卫南</span><span class="arrow">→</span>
+      <span class="node g">自驾北行</span><span class="arrow">→</span>
+      <span class="node">银川</span><span class="arrow">→</span>
+      <span class="node">西安北</span>
+    </div>
+    <div class="mid"><b>核心交通逻辑：</b>去程高铁到中卫南取车 → 一路向北自驾 → 银川还车 → 高铁返程，全程零折返。</div>
+    <div class="leg">
+      <span>🚄 去程 西安北→中卫南 动车约4h</span>
+      <span>🚗 取车 中卫南站（满电交付）</span>
+      <span>🅿️ 还车 银川站网点</span>
+      <span>🚄 返程 银川→西安北 高铁约3h</span>
+    </div>
+  </div>
+
+  <div class="ov-grid">
+    <div class="card">
+      <h3><span class="ic">🎯</span>行程亮点</h3>
+      <ul class="hl-list">
+        <li>一次性打卡宁夏四大王牌：沙坡头大漠黄河、青铜峡峡谷古塔、镇北堡影视古城、西夏王陵遗址</li>
+        <li>串联塞上江南黄河风光与贺兰山历史文脉，自然与人文配比均衡</li>
+        <li>全程高速充电桩 100% 覆盖，电车出行零里程焦虑</li>
+        <li>日均行驶不足 100 公里，不赶路、不疲劳，适配家庭与休闲出游</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="ic">🧭</span>行程节奏</h3>
+      <p><b>先自然后人文</b>：Day1-2 大漠黄河、峡谷风光打头阵。</p>
+      <p><b>先壮阔后深度</b>：Day3 影视 IP 与西夏王陵渐入人文。</p>
+      <p><b>越玩越松弛</b>：里程逐日递减，最后一天最轻松。</p>
+      <p><b>收官即返程</b>：Day4 上午岩画、下午博物馆，傍晚高铁回家。</p>
+      <div style="margin-top:10px">
+        <span class="pill">Day1 约40km</span><span class="pill">Day2 约150km</span>
+        <span class="pill">Day3 约80km</span><span class="pill">Day4 约60km</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Day 1 ===== -->
+<section id="day1">
+  <div class="sec-head">
+    <div class="num">02</div>
+    <div><h2>每日行程</h2><span class="en">Day by Day</span></div>
+  </div>
+
+  <div class="day">
+    <div class="top">
+      <div><div class="d">Day 1</div><div class="theme">西安 → 中卫「大漠黄河开篇日」</div></div>
+      <div class="km">当日行驶约 40 km</div>
+    </div>
+    <div class="body">
+      <div class="tl">
+        <div class="ev">
+          <div class="t">上午 · 高铁抵达 + 取车</div>
+          <div class="h">推荐车次 D3585 07:45-12:24（西安北→中卫南）</div>
+          <div class="d">中午前抵达，时间利用率最高。出站口即有<b>神州、一嗨</b>等租车点，凭身份证+驾驶证办理，电车默认<b>满电交付</b>。</div>
+          <div class="tip">💡 提前 15 天在平台预订车型，暑期电车需求紧张，早订可选车型更多。</div>
+        </div>
+        <div class="ev">
+          <div class="t">中午 · 中卫市区午餐</div>
+          <div class="h">国强手抓（中卫店）、刘三朵八宝茶</div>
+          <div class="d">必点：<b>手抓羊肉、中卫酿皮、蒿子面、八宝茶</b>。用餐约 1 小时，餐后可在超市采购饮用水、防晒与零食。</div>
+        </div>
+        <div class="ev">
+          <div class="t">下午-傍晚 · 沙坡头旅游区（5-6 小时）</div>
+          <div class="h">门票 80 元/人 · 开放 08:30-18:30（夏延至19:00）</div>
+          <div class="d"><b>黄河区（14:30-17:00）</b>：南门入园，先玩黄河项目。必体验羊皮筏子漂流（120元）、黄河飞索（100元）；打卡王维观景台拍「大漠孤烟直，长河落日圆」。</div>
+          <div class="d"><b>沙漠区（17:00-19:30）</b>：乘观光车跨包兰铁路进腾格里沙漠。骑骆驼（100元）、沙漠冲浪车（160元）、百米滑沙（30元）。18:30 后沙漠呈金红色，落日黄金时段。</div>
+          <div class="warn">⚠️ 12:00-16:00 沙漠地表超 40℃，尽量在黄河区/室内休整；穿防滑运动鞋，勿穿凉鞋；手机相机做好防沙，带密封袋。</div>
+        </div>
+        <div class="ev">
+          <div class="t">晚上 · 夜市逛吃 + 入住</div>
+          <div class="h">向阳步行街夜市</div>
+          <div class="d">必点辣爆羊羔肉、烤羊蹄、冰镇硒砂瓜。住宿推荐鼓楼、滨河大道周边。</div>
+          <div class="charge">🔋 酒店周边快充补满，推荐国家电网中卫鼓楼充电站，步行可达商圈。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Day 2 ===== -->
+  <div class="day">
+    <div class="top">
+      <div><div class="d">Day 2</div><div class="theme">中卫 → 青铜峡 → 吴忠「黄河峡谷塞上风光日」</div></div>
+      <div class="km">当日行驶约 150 km（支线210）</div>
+    </div>
+    <div class="body">
+      <div class="tl">
+        <div class="ev">
+          <div class="t">上午 · 66号公路 + 北长滩古村（可选支线）</div>
+          <div class="h">导航：北长滩古村</div>
+          <div class="d">往返约 2 小时，打卡拍照 30 分钟。<b>66号公路</b>：笔直戈壁公路配沟壑山峦，公路牌是经典机位。<b>北长滩古村</b>：黄河岸边百年原始村落，黄土民居配老梨树，适合人文片。</div>
+          <div class="tip">💡 属支线往返；若追求绝对零折返，可跳过直接北上青铜峡，全程纯北向无折返。</div>
+        </div>
+        <div class="ev">
+          <div class="t">中午 · 驱车北上 + 简餐</div>
+          <div class="h">中卫→定武高速→京藏高速→青铜峡（约1.5h）</div>
+          <div class="charge">🔋 中卫服务区顺向快充 20 分钟，配 120kW 国网桩，休息补能同步完成。</div>
+        </div>
+        <div class="ev">
+          <div class="t">下午 · 青铜峡黄河大峡谷（3.5 小时）</div>
+          <div class="h">门票+船票 190 元/人 · 开放 08:00-18:00</div>
+          <div class="d">乘游船沿黄河逆流而上赏峡谷风光 → 登岸参观<b>108塔</b>（中国最大喇嘛式塔群，始建于西夏，顺时针绕塔是本地传统）→ 游览<b>大禹文化园</b>。可选手快艇返程。</div>
+        </div>
+        <div class="ev">
+          <div class="t">晚上 · 吴忠市区入住 + 美食</div>
+          <div class="h">青铜峡→吴忠（约30分钟）· 宁夏美食天花板</div>
+          <div class="d">必吃：手抓羊肉（国强手抓、同心春）、羊杂碎配烧饼、八宝茶（可免费续水）。住利通区万达、开元大道周边。</div>
+          <div class="charge">🔋 吴忠快充密集，推荐国家电网吴忠利通街充电站，夜间电价更低。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Day 3 ===== -->
+  <div class="day">
+    <div class="top">
+      <div><div class="d">Day 3</div><div class="theme">吴忠 → 银川「西夏传奇影视江湖日」</div></div>
+      <div class="km">当日行驶约 80 km</div>
+    </div>
+    <div class="body">
+      <div class="tl">
+        <div class="ev">
+          <div class="t">上午 · 镇北堡西部影城（3.5 小时）</div>
+          <div class="h">门票 80 元/人 · 开放 08:00-18:00</div>
+          <div class="d"><b>明城</b>：《红高粱》《龙门客栈》取景地，月亮门、铁匠营经典机位。<b>清城</b>：《大话西游》核心取景地，至尊宝告白城墙、盘丝洞必打卡。<b>老银川一条街</b>：复刻民国市井，拍复古人文。</div>
+          <div class="tip">💡 9:00-11:00 光线柔和、游客少、出片率高；可租古装/紫霞戏服 50-100元/套。景区内消费高，自带饮水零食。</div>
+        </div>
+        <div class="ev">
+          <div class="t">中午 · 景区周边午餐</div>
+          <div class="h">镇北堡附近农家乐</div>
+          <div class="d">必点宁夏烩肉、手工面片、凉拌沙葱。</div>
+        </div>
+        <div class="ev">
+          <div class="t">下午 · 西夏王陵（2.5 小时）</div>
+          <div class="h">门票+观光车 85 元/人 · 开放 08:00-18:30（夏延19:30）</div>
+          <div class="d">先参观<b>西夏博物馆</b>（鎏金铜牛复制品为镇馆之宝）→ 乘观光车至<b>3号陵（泰陵）</b>，李元昊陵墓，地面遗迹最完整。</div>
+          <div class="warn">⚠️ 17:00-19:00 落日余晖洒黄土陵丘、背景贺兰山剪影，氛围顶峰。</div>
+        </div>
+        <div class="ev">
+          <div class="t">晚上 · 怀远夜市逛吃 + 入住</div>
+          <div class="d">必吃：怀远一品辣条、辣糊糊、红柳烤肉、甜胚子奶茶、烤蛋、牛奶鸡蛋醪糟。住西夏区/金凤区怀远夜市、万达周边。</div>
+          <div class="charge">🔋 银川充电桩密度全省最高，推荐西夏万达广场充电站。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Day 4 ===== -->
+  <div class="day">
+    <div class="top">
+      <div><div class="d">Day 4</div><div class="theme">银川「远古岩画人文收官日」</div></div>
+      <div class="km">当日行驶约 60 km</div>
+    </div>
+    <div class="body">
+      <div class="tl">
+        <div class="ev">
+          <div class="t">上午 · 贺兰山岩画（2.5 小时）</div>
+          <div class="h">门票+观光车 70 元/人（含韩美林艺术馆）· 开放 08:00-18:00</div>
+          <div class="d">寻找标志性的<b>「太阳神」岩画</b>（远古祭祀图腾）→ 沿峡谷步道看数千幅狩猎、放牧、祭祀石刻 → 偶遇野生岩羊。出口<b>韩美林艺术馆</b>免费，现代与远古呼应。</div>
+          <div class="tip">💡 峡谷有溪流，夏季比市区低 5-8℃，天然避暑地。</div>
+        </div>
+        <div class="ev">
+          <div class="t">中午 · 贺兰山脚下农家乐</div>
+          <div class="d">推荐炖土鸡、山野菜、荞面饸饹，食材本地自产，风味质朴。</div>
+        </div>
+        <div class="ev">
+          <div class="t">下午 · 宁夏博物馆（1.5 小时）</div>
+          <div class="h">免费 · 需提前1天公众号预约 · 周一闭馆 · 09:00-17:00</div>
+          <div class="d">必看国宝：<b>鎏金铜牛</b>（西夏青铜巅峰）、西夏文石碑残片、丝路文物展区。系统串联石窟、王陵、岩画的历史脉络。</div>
+        </div>
+        <div class="ev">
+          <div class="t">傍晚 · 还车 + 高铁返程</div>
+          <div class="h">还车点：银川站租车点（步行5分钟）</div>
+          <div class="d">推荐车次 <b>G3187 17:47-21:24（银川→西安北）</b>，玩满全天再走，不赶。</div>
+          <div class="charge">🔋 还车前无需特意满电，平台按交付电量标准结算，正常使用即可。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 电车补能 ===== -->
+<section id="charge">
+  <div class="sec-head">
+    <div class="num">03</div>
+    <div><h2>电车出行专属补能指南</h2><span class="en">EV Charging</span></div>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <p>宁夏全区高速服务区充电桩已实现 <b>100% 覆盖</b>，以 120kW 国家电网快充为主，30%-80% 补能仅需 <b>30 分钟左右</b>。本行程补能节奏宽松，续航 400km 以上车型可做到<b>两天一充</b>。</p>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>路段</th><th>推荐补能点</th><th>补能时机</th><th>备注</th></tr></thead>
+      <tbody>
+        <tr><td><b>中卫市区</b></td><td>鼓楼充电站、沙坡头区快充站</td><td>Day1 晚入住后</td><td>夜间电价低，补满覆盖次日全天</td></tr>
+        <tr><td><b>中卫→青铜峡</b></td><td>中卫服务区（定武高速）</td><td>Day2 中午顺路</td><td>双向均有桩，120kW 快充，休息即补</td></tr>
+        <tr><td><b>吴忠市区</b></td><td>利通街充电站、万达商圈站</td><td>Day2 晚入住后</td><td>网点密集，可选步行可达站点</td></tr>
+        <tr><td><b>银川市区</b></td><td>西夏万达站、金凤商圈站</td><td>Day3 晚入住后</td><td>选择极多，可结合晚餐就近补能</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="tip" style="margin-top:14px">
+    🔍 <b>查询工具：</b>高速桩用「e充电」APP 看实时状态；市区桩用高德/百度地图筛选「快充站」。<br>
+    ⏰ <b>高峰提示：</b>节假日 9:00-17:00 为高速充电高峰，建议错峰至夜间或午饭时段补能。
+  </div>
+</section>
+
+<!-- ===== 费用说明 ===== -->
+<section id="cost">
+  <div class="sec-head">
+    <div class="num">04</div>
+    <div><h2>租车与费用说明</h2><span class="en">Rental & Budget</span></div>
+  </div>
+
+  <div class="ov-grid" style="margin-bottom:18px">
+    <div class="card">
+      <h3><span class="ic">🚗</span>异地租车须知</h3>
+      <ul class="hl-list">
+        <li><b>平台选择：</b>优先神州、一嗨等大平台，中卫南、银川站均有实体网点，支持电车异地还车</li>
+        <li><b>异地还车费：</b>中卫→银川同省跨城约 200-400 元，提前 15 天预订常有减免</li>
+        <li><b>保险建议：</b>必购基础险，加购三者险与车损险，西北路段偶有碎石</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="ic">🔋</span>车型推荐</h3>
+      <ul class="hl-list">
+        <li><b>性价比款：</b>比亚迪元 PLUS、哪吒 U（CLTC 500km+），日均约 200 元</li>
+        <li><b>舒适款：</b>特斯拉 Model 3、比亚迪汉，日均约 300 元</li>
+        <li><b>续航建议：</b>400km 以上车型可两天一充，行程无压力</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>项目</th><th>费用明细（人均 / 2人同行）</th></tr></thead>
+      <tbody>
+        <tr><td><b>大交通</b>（高铁往返）</td><td>约 560 元</td></tr>
+        <tr><td><b>租车</b>（3天，含异地费/电费/保险）</td><td>约 550 元</td></tr>
+        <tr><td><b>门票</b>（含景区交通、游船）</td><td>约 430 元</td></tr>
+        <tr><td><b>住宿</b>（3晚经济型酒店/民宿）</td><td>约 600 元</td></tr>
+        <tr><td><b>餐饮</b></td><td>约 500 元</td></tr>
+        <tr><td style="background:var(--paper-2)"><b>总计</b></td><td style="background:var(--paper-2)"><b>约 2640 元 / 人</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ===== 出行贴士 ===== -->
+<section id="tips">
+  <div class="sec-head">
+    <div class="num">05</div>
+    <div><h2>实用出行贴士</h2><span class="en">Practical Tips</span></div>
+  </div>
+  <div class="tips">
+    <div class="tip-c">
+      <h4>👕 穿搭防晒</h4>
+      <p>昼夜温差 10-15℃，白天短袖+防晒衣，傍晚备薄外套。沙漠山区紫外线极强，SPF50+ 防晒、宽檐帽、墨镜、防风面罩必备。</p>
+    </div>
+    <div class="tip-c">
+      <h4>📅 预约提醒</h4>
+      <p>宁夏博物馆周一闭馆；沙坡头、西夏王陵等建议提前 1 天线上购票，暑期客流大，早订早安心。</p>
+    </div>
+    <div class="tip-c">
+      <h4>🍽️ 饮食习俗</h4>
+      <p>途经回族聚居区，尊重当地信仰；清真餐厅内禁止饮酒、外带非清真食品。</p>
+    </div>
+    <div class="tip-c">
+      <h4>💊 应急物资</h4>
+      <p>带足饮用水，备肠胃药、感冒药、创可贴；沙漠干燥，备润唇膏与保湿霜。</p>
+    </div>
+    <div class="tip-c">
+      <h4>🛣️ 驾驶提示</h4>
+      <p>戈壁公路笔直开阔易视觉疲劳，每 2 小时轮换驾驶；景区路段限速严格，注意避让牲畜与野生动物。</p>
+    </div>
+    <div class="tip-c">
+      <h4>🔋 电车节奏</h4>
+      <p>全程桩网密集、补能宽松；错峰夜间或午饭时段充电，续航焦虑为零。</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="line"></div>
+  🐫 宁夏 4 天 3 晚「纯北向零折返」深度攻略 · 中卫南进 · 银川北出 · 电车友好<br>
+  愿你在长河落日与圆顶尖塔里，找到塞上的松弛。
+</footer>
+
+<div id="top" title="回到顶部">↑</div>
+<script>
+  const t=document.getElementById('top');
+  window.addEventListener('scroll',()=>{t.classList.toggle('show',window.scrollY>400)});
+  t.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+</script>
+</body>
+</html>

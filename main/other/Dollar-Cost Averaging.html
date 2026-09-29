@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>我的定投执行卡</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root{--ink:#1f2329;--sub:#5c6573;--line:#e6e9ef;--brand:#c0392b;--brand2:#2c7be5;--ok:#1e8e5a;--warn:#b7791f;--chip:#f4f6fa;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#fff;color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;font-size:13.5px;}
+  .card{max-width:860px;margin:20px auto;padding:26px 28px 20px;border:1px solid var(--line);border-radius:16px;}
+  .top{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid var(--brand);padding-bottom:10px;margin-bottom:14px;}
+  h1{font-size:22px;margin:0;}
+  .sub{color:var(--sub);font-size:12px;margin-top:3px;}
+  .date{font-size:11.5px;color:var(--sub);text-align:right;white-space:nowrap;}
+  .layout{display:grid;grid-template-columns:1.6fr 1fr;gap:18px;align-items:start;}
+  table{border-collapse:collapse;width:100%;font-size:12.5px;}
+  th,td{border:1px solid var(--line);padding:6px 7px;text-align:center;vertical-align:middle;}
+  th{background:#f7f9fc;font-weight:600;}
+  .l{text-align:left;}
+  .fee{color:var(--ok);font-weight:600;}
+  .feehi{color:var(--warn);font-weight:600;}
+  .pct{font-weight:700;color:var(--brand2);}
+  .amt{font-weight:700;}
+  .sec{font-size:14px;font-weight:600;margin:16px 0 8px;padding-left:9px;border-left:4px solid var(--brand);}
+  .note{font-size:12px;color:var(--sub);margin:6px 0;}
+  .rules{list-style:none;padding:0;margin:0;}
+  .rules li{display:flex;gap:9px;margin:7px 0;font-size:12.8px;}
+  .rules b{color:var(--brand);white-space:nowrap;}
+  .proj{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px;}
+  .pc{background:var(--chip);border-radius:10px;padding:10px 12px;text-align:center;}
+  .pc .v{font-size:19px;font-weight:700;color:var(--brand2);}
+  .pc .k{font-size:11.5px;color:var(--sub);}
+  .pc.hero{background:#e8f1fd;border:1px solid #cfe0f8;}
+  .hold{font-size:12.3px;background:#fdf3f0;border:1px solid #f3cfc6;border-radius:9px;padding:9px 12px;margin-top:8px;}
+  .foot{margin-top:16px;padding-top:9px;border-top:1px solid var(--line);font-size:10.8px;color:var(--sub);}
+  code{background:var(--chip);padding:1px 4px;border-radius:4px;font-size:11.5px;}
+  .num{font-variant-numeric:tabular-nums;}
+  .legendrow{display:flex;flex-wrap:wrap;gap:10px;font-size:11.5px;color:var(--sub);margin-top:6px;}
+  .dot{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:middle;}
+  @media print{body{background:#fff;} .card{border:none;margin:0;max-width:100%;}}
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="top">
+    <div>
+      <h1>我的定投执行卡</h1>
+      <div class="sub">宽基打底 · 红利增强 · 黄金压舱 ｜ 全低费率 </div>
+    </div>
+    <div class="date">数据 2026-09-29<br>月投示例 4000 元</div>
+  </div>
+
+  <div class="layout">
+    <!-- 左：配置表 -->
+    <div>
+      <div class="sec">① 每月买这 5 只（按份额）</div>
+      <table>
+        <thead><tr><th>角色</th><th class="l">代码/名称</th><th>费率</th><th>占比</th><th>每月买</th><th>约金额</th></tr></thead>
+        <tbody>
+          <tr><td>宽基核心</td><td class="l"><code>sh510300</code> 沪深300</td><td class="fee">0.20%</td><td class="pct">40%</td><td class="amt">400份</td><td class="num">1764</td></tr>
+          <tr><td>红利价值</td><td class="l"><code>sh563020</code> 红利低波</td><td class="fee">0.20%</td><td class="pct">20%</td><td class="amt">700份</td><td class="num">811</td></tr>
+          <tr><td>高股息</td><td class="l"><code>sz159207</code> 高股息</td><td class="fee">0.20%</td><td class="pct">15%</td><td class="amt">500份</td><td class="num">562</td></tr>
+          <tr><td>港股红利</td><td class="l"><code>sz159545</code> 港股红利低波</td><td class="fee">0.20%</td><td class="pct">10%</td><td class="amt">300份</td><td class="num">385</td></tr>
+          <tr><td>黄金压舱</td><td class="l"><code>sh518880</code> 黄金ETF</td><td class="feehi">0.60%</td><td class="pct">15%</td><td class="amt">100份</td><td class="num">849</td></tr>
+          <tr><td colspan="4" class="l"><b>每月合计</b></td><td>—</td><td class="num"><b>≈4370</b></td></tr>
+        </tbody>
+      </table>
+      <p class="note">金额=现价×份额（随行情浮动，±10% 正常，长期自动平均）。黄金 1 手=849 元占比偏高，想严格 15% 可<b>隔月买 100 份</b>或用<b>场外联接基金</b>（1 元起投）。</p>
+
+      <div class="sec">② 按金额缩放</div>
+      <table>
+        <thead><tr><th>月投</th><th>510300</th><th>563020</th><th>159207</th><th>159545</th><th>518880</th></tr></thead>
+        <tbody>
+          <tr><td class="amt">3000</td><td>300份</td><td>500份</td><td>400份</td><td>200份</td><td>隔月100份</td></tr>
+          <tr><td class="amt">4000</td><td>400份</td><td>700份</td><td>500份</td><td>300份</td><td>100份</td></tr>
+          <tr><td class="amt">5000</td><td>500份</td><td>900份</td><td>600份</td><td>400份</td><td>100份</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 右：配比图 + 纪律 -->
+    <div>
+      <div class="sec">③ 配置结构</div>
+      <div style="position:relative;width:100%;height:190px;">
+        <canvas id="alloc"></canvas>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;">
+          <div style="font-size:11px;color:#5c6573;">宽基40</div><div style="font-size:11px;color:#5c6573;">红利45·金15</div>
+        </div>
+      </div>
+      <div class="legendrow">
+        <span><span class="dot" style="background:#185FA5"></span>沪深300 40%</span>
+        <span><span class="dot" style="background:#1D9E75"></span>红利低波 20%</span>
+        <span><span class="dot" style="background:#5DCAA5"></span>高股息 15%</span>
+        <span><span class="dot" style="background:#378ADD"></span>港股红利 10%</span>
+        <span><span class="dot" style="background:#BA7517"></span>黄金 15%</span>
+      </div>
+
+      <div class="sec">④ 四条纪律</div>
+      <ul class="rules">
+        <li><b>投多少</b><span>以"失业 6 个月也能照扣"为准，别硬撑高金额。</span></li>
+        <li><b>怎么买</b><span>发薪后固定 1 天自动买；分红一律<b>再投资</b>。</span></li>
+        <li><b>暴跌时</b><span>照样买甚至多买——30 年会遇 3–5 次 30% 回撤，那是礼物。</span></li>
+        <li><b>每季度</b><span>偏离 ±5% 就用下月新钱补低的、暂停高的，尽量不卖；每年随加薪提高金额。</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sec">⑤ 30 年复利测算（月投 4000，分红再投资）</div>
+  <div class="proj">
+    <div class="pc"><div class="v">≈185万</div><div class="k">悲观 6%</div></div>
+    <div class="pc hero"><div class="v">≈227万</div><div class="k">基准 ~7.7%（本方案）</div></div>
+    <div class="pc"><div class="v">≈267万</div><div class="k">乐观 9%</div></div>
+  </div>
+  <p class="note">累计投入 96 万。本方案预期收益略低于"全仓红利"（因含黄金/宽基），但<b>回撤更小、更容易拿满 30 年</b>——长期拿到手的，往往比纸面高收益更重要。</p>
+
+  <div class="foot">
+    本卡为研究框架与个人化配置思路，<b>不构成投资建议</b>；预期收益为假设非承诺。基金价格/费率/规模/分红政策会变动，交易前请核对最新数据。什么时候才换基：仅当同角色里出现费率更低或规模更大的替代品。
+  </div>
+
+</div>
+<script>
+(function(){
+  new Chart(document.getElementById('alloc'),{
+    type:'doughnut',
+    data:{labels:['沪深300 40%','红利低波 20%','高股息 15%','港股红利 10%','黄金 15%'],
+      datasets:[{data:[40,20,15,10,15],backgroundColor:['#185FA5','#1D9E75','#5DCAA5','#378ADD','#BA7517'],borderColor:'#fff',borderWidth:2}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'64%',plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:function(c){return ' '+c.label;}}}}}
+  });
+})();
+</script>
+</body>
+</html>

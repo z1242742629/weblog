@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QQPet · 桌面宠物，陪你慢慢长大</title>
+<meta name="description" content="QQPet 是 QQ 宠物的非官方 PC 复刻版：桌面挂机养成、语音聊天、农牧场、旅行相册，一键安装即玩。">
+<meta name="theme-color" content="#2f6fb8">
+<meta property="og:title" content="QQPet · 桌面宠物，陪你慢慢长大">
+<meta property="og:description" content="QQ 宠物的非官方 PC 复刻版。桌面挂机养成、语音聊天、农牧场、旅行相册。">
+<meta property="og:type" content="website">
+<meta property="og:image" content="../picture/peticon.png">
+<link rel="icon" href="../picture/peticon.png">
+<style>
+  /* ── 基础 ───────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; }
+
+  :root {
+    --white: #fff;
+    --ink: #1b1c22;
+    --dim: rgba(255, 255, 255, .66);
+    --dimmer: rgba(255, 255, 255, .66);
+    --line: rgba(255, 255, 255, .16);
+    --font: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei UI",
+            "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    min-height: 100%;
+    font-family: var(--font);
+    color: var(--white);
+    background: #1b3f86;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+
+  /* ── 背景：彩色竖条纹光带 ───────────────────────────── */
+  .sky {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    /* 横向色带：深蓝 → 青 → 绿（窄） → 蓝紫 → 紫 → 粉 → 蓝紫 */
+    background: linear-gradient(96deg,
+      #16377c 0%, #2158ac 8%, #2a83c2 16%, #2f9fbe 23%,
+      #33a998 28%, #2f9bb0 34%, #3787c6 41%, #4767d5 48%,
+      #6653db 55%, #8f52cd 62%, #b55fbb 69%, #d376b1 75%,
+      #e093b6 80%, #d09ec8 85%, #a98dd7 90%, #6f74de 96%, #4058cc 100%);
+  }
+
+  /* 竖条纹理：28px 一格，每格内部由亮到暗平滑过渡，做出光栅感 */
+  .sky::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(90deg,
+      rgba(255, 255, 255, .30) 0px,
+      rgba(255, 255, 255, .12) 4px,
+      rgba(255, 255, 255, .00) 13px,
+      rgba(6, 10, 40, .20) 21px,
+      rgba(6, 10, 40, .06) 28px);
+    mix-blend-mode: overlay;
+    opacity: .72;
+  }
+
+  /* 光斑：让色带不呆板，缓慢漂浮 */
+  .sky-glow {
+    position: absolute;
+    inset: -25%;
+    background:
+      radial-gradient(38% 44% at 22% 26%, rgba(150, 225, 255, .32), transparent 68%),
+      radial-gradient(42% 48% at 76% 22%, rgba(200, 150, 255, .30), transparent 70%),
+      radial-gradient(48% 38% at 60% 88%, rgba(255, 165, 205, .22), transparent 70%),
+      radial-gradient(30% 30% at 46% 46%, rgba(255, 255, 255, .10), transparent 72%);
+    filter: blur(22px);
+    animation: drift 26s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+
+  @keyframes drift {
+    from { transform: translate3d(-2%, -1%, 0) scale(1.02); }
+    to   { transform: translate3d(2%, 1.5%, 0) scale(1.08); }
+  }
+
+  /* 上下压暗，把注意力收到中间 */
+  .sky::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(125% 90% at 50% 44%, transparent 38%, rgba(8, 12, 40, .20) 100%),
+      linear-gradient(180deg, rgba(8, 12, 40, .20) 0%, transparent 20%, transparent 72%, rgba(8, 12, 40, .30) 100%);
+  }
+
+  /* ── 导航 ───────────────────────────────────────────── */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 0 clamp(16px, 4vw, 44px);
+    height: 68px;
+    transition: background .35s ease, backdrop-filter .35s ease, box-shadow .35s ease;
+  }
+  .nav.solid {
+    background: rgba(16, 24, 56, .55);
+    backdrop-filter: saturate(150%) blur(14px);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, .10);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 17px;
+    letter-spacing: .02em;
+  }
+  .brand img {
+    width: 32px; height: 32px;
+    border-radius: 9px;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, .35));
+  }
+  .brand small {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: .12em;
+    color: var(--dimmer);
+    text-transform: uppercase;
+    padding-left: 2px;
+    border-left: 1px solid var(--line);
+    margin-left: 2px;
+    padding-block: 2px;
+  }
+
+  .nav nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(8px, 2vw, 26px);
+    font-size: 14.5px;
+  }
+  .nav nav a {
+    color: var(--dim);
+    transition: color .2s ease;
+    white-space: nowrap;
+  }
+  .nav nav a:hover { color: #fff; }
+  .nav nav a.ghost {
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, .34);
+    border-radius: 999px;
+    padding: 7px 15px;
+    transition: background .2s ease, border-color .2s ease;
+  }
+  .nav nav a.ghost:hover { background: rgba(255, 255, 255, .16); border-color: transparent; }
+
+  @media (max-width: 720px) {
+    .nav nav a:not(.ghost) { display: none; }
+  }
+
+  /* ── 首屏 ───────────────────────────────────────────── */
+  .hero {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 108px clamp(18px, 5vw, 40px) 56px;
+    position: relative;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px 6px 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .10);
+    border: 1px solid rgba(255, 255, 255, .26);
+    backdrop-filter: blur(8px);
+    font-size: 12.5px;
+    letter-spacing: .06em;
+    color: rgba(255, 255, 255, .92);
+    margin-bottom: clamp(20px, 4vh, 34px);
+  }
+  .hero-badge i {
+    font-style: normal;
+    background: #fff;
+    color: #2b57b8;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    border-radius: 999px;
+    padding: 3px 9px;
+  }
+
+  .hero h1 {
+    margin: 0;
+    font-size: clamp(32px, 5.6vw, 70px);
+    font-weight: 300;
+    line-height: 1.22;
+    letter-spacing: clamp(.06em, 1.1vw, .16em);
+    text-shadow: 0 4px 34px rgba(10, 16, 48, .38);
+  }
+  .hero-sub {
+    margin: clamp(16px, 2.6vh, 24px) 0 0;
+    font-size: clamp(13.5px, 1.28vw, 16px);
+    line-height: 1.85;
+    letter-spacing: .09em;
+    color: rgba(255, 255, 255, .90);
+    text-shadow: 0 1px 3px rgba(10, 16, 48, .30), 0 2px 20px rgba(10, 16, 48, .45);
+    max-width: 40em;
+  }
+
+  /* 下载按钮 */
+  .dl-wrap {
+    margin-top: clamp(28px, 5vh, 46px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .btn-dl {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-width: clamp(232px, 26vw, 318px);
+    padding: 0 clamp(26px, 3vw, 38px);
+    height: clamp(50px, 6.4vh, 60px);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--ink);
+    font-size: clamp(16px, 1.5vw, 19px);
+    font-weight: 500;
+    letter-spacing: .06em;
+    box-shadow:
+      0 10px 30px -8px rgba(6, 10, 40, .48),
+      0 2px 0 rgba(255, 255, 255, .5) inset;
+    transition: transform .22s cubic-bezier(.2, .8, .3, 1), box-shadow .22s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-dl svg { width: 22px; height: 22px; flex: none; }
+  .btn-dl::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 30%, rgba(120, 170, 255, .30) 46%, transparent 62%);
+    transform: translateX(-120%);
+    transition: transform .7s ease;
+  }
+  .btn-dl:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 18px 40px -10px rgba(6, 10, 40, .55),
+      0 2px 0 rgba(255, 255, 255, .6) inset;
+  }
+  .btn-dl:hover::after { transform: translateX(120%); }
+  .btn-dl:active { transform: translateY(0) scale(.985); }
+
+  .dl-alt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 13px;
+    color: rgba(255, 255, 255, .70);
+  }
+  .dl-alt a {
+    color: rgba(255, 255, 255, .86);
+    border-bottom: 1px solid rgba(255, 255, 255, .30);
+    padding-bottom: 1px;
+    transition: color .2s, border-color .2s;
+  }
+  .dl-alt a:hover { color: #fff; border-color: #fff; }
+  .dl-alt span.sep { opacity: .35; }
+
+  /* 版本号 */
+  .ver {
+    margin-top: 22px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px 0;
+    font-size: 12.5px;
+    letter-spacing: .10em;
+    color: rgba(255, 255, 255, .82);
+    font-variant-numeric: tabular-nums;
+  }
+  .ver span { display: inline-flex; align-items: center; }
+  .ver span + span::before {
+    content: "·";
+    margin: 0 10px;
+    opacity: .6;
+  }
+
+  /* 平台行 */
+  .plats {
+    margin-top: clamp(34px, 6vh, 60px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: clamp(14px, 2.4vw, 34px);
+    font-size: 13.5px;
+    letter-spacing: .04em;
+  }
+  .plat {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--dimmer);
+    cursor: default;
+    transition: color .2s ease;
+  }
+  .plat svg {
+    width: 18px; height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .plat svg .solid { fill: currentColor; stroke: none; }
+  .plat svg.tux .solid { opacity: .92; }
+  .plat.on { color: #fff; }
+  .plat.on:hover { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
+
+  /* ── 内容区 ─────────────────────────────────────────── */
+  .sect {
+    padding: clamp(72px, 11vh, 130px) clamp(18px, 5vw, 40px);
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .sect-head { text-align: center; margin-bottom: clamp(34px, 6vh, 58px); }
+  .sect-head h2 {
+    margin: 0 0 12px;
+    font-size: clamp(24px, 3.1vw, 34px);
+    font-weight: 500;
+    letter-spacing: .10em;
+    text-shadow: 0 3px 20px rgba(10, 16, 48, .3);
+  }
+  .sect-head p {
+    margin: 0;
+    font-size: 14.5px;
+    letter-spacing: .07em;
+    color: rgba(255, 255, 255, .80);
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(268px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    padding: 24px 22px 26px;
+    border-radius: 18px;
+    background: linear-gradient(160deg, rgba(14, 22, 54, .40), rgba(14, 22, 54, .22));
+    border: 1px solid rgba(255, 255, 255, .16);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 12px 30px -18px rgba(6, 10, 40, .6);
+    transition: transform .3s cubic-bezier(.2, .8, .3, 1), background .3s, border-color .3s;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+    background: linear-gradient(160deg, rgba(14, 22, 54, .52), rgba(14, 22, 54, .30));
+    border-color: rgba(255, 255, 255, .30);
+  }
+  .card .ic {
+    width: 40px; height: 40px;
+    border-radius: 12px;
+    display: grid; place-items: center;
+    background: rgba(255, 255, 255, .16);
+    border: 1px solid rgba(255, 255, 255, .18);
+    margin-bottom: 16px;
+  }
+  .card .ic svg { width: 21px; height: 21px; stroke: #fff; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .card h3 {
+    margin: 0 0 8px;
+    font-size: 16.5px;
+    font-weight: 600;
+    letter-spacing: .05em;
+  }
+  .card p {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: rgba(255, 255, 255, .80);
+    letter-spacing: .03em;
+  }
+
+  /* 安装步骤 */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  .step {
+    position: relative;
+    padding: 26px 24px;
+    border-radius: 18px;
+    background: linear-gradient(160deg, rgba(14, 22, 54, .40), rgba(14, 22, 54, .22));
+    border: 1px solid rgba(255, 255, 255, .16);
+    backdrop-filter: blur(10px);
+  }
+  .step .no {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    color: rgba(255, 255, 255, .5);
+    margin-bottom: 12px;
+  }
+  .step h3 { margin: 0 0 8px; font-size: 16px; font-weight: 600; letter-spacing: .05em; }
+  .step .no { color: rgba(255, 255, 255, .58); }
+  .step p { margin: 0; font-size: 13.5px; line-height: 1.75; color: rgba(255, 255, 255, .80); }
+  .step code {
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    font-size: 12.5px;
+    background: rgba(255, 255, 255, .10);
+    border-radius: 5px;
+    padding: 1px 6px;
+  }
+
+  /* 更新日志 */
+  .log {
+    border-left: 1px solid var(--line);
+    margin: 0 auto;
+    max-width: 720px;
+    padding-left: 26px;
+    display: grid;
+    gap: 26px;
+  }
+  .log-item { position: relative; }
+  .log-item::before {
+    content: "";
+    position: absolute;
+    left: -31px; top: 7px;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, .16);
+  }
+  .log-item .v {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: .05em;
+    margin-bottom: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .log-item .v time {
+    font-weight: 400;
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, .52);
+    margin-left: 10px;
+    letter-spacing: .06em;
+  }
+  .log-item ul {
+    margin: 8px 0 0;
+    padding-left: 18px;
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: rgba(255, 255, 255, .84);
+  }
+  .log-item li::marker { color: rgba(255, 255, 255, .38); }
+
+  /* ── 页脚 ───────────────────────────────────────────── */
+  .foot {
+    padding: clamp(40px, 7vh, 66px) clamp(18px, 5vw, 40px) clamp(46px, 8vh, 70px);
+    text-align: center;
+    font-size: 12.5px;
+    line-height: 2;
+    letter-spacing: .04em;
+    color: rgba(255, 255, 255, .70);
+    border-top: 1px solid rgba(255, 255, 255, .10);
+    background: linear-gradient(180deg, transparent, rgba(8, 12, 40, .28));
+  }
+  .foot a { color: rgba(255, 255, 255, .82); border-bottom: 1px solid rgba(255, 255, 255, .28); }
+  .foot a:hover { color: #fff; }
+  .foot .links {
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+    font-size: 13px;
+  }
+
+  /* ── 入场动画 ───────────────────────────────────────── */
+  .rise {
+    opacity: 0;
+    transform: translateY(18px);
+    animation: rise .9s cubic-bezier(.2, .7, .25, 1) forwards;
+  }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+  .d1 { animation-delay: .05s; }
+  .d2 { animation-delay: .16s; }
+  .d3 { animation-delay: .28s; }
+  .d4 { animation-delay: .40s; }
+  .d5 { animation-delay: .52s; }
+  .d6 { animation-delay: .64s; }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .8s ease, transform .8s cubic-bezier(.2, .7, .25, 1);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .sky-glow { animation: none; }
+    .rise, .reveal { opacity: 1 !important; transform: none !important; animation: none !important; }
+    .btn-dl::after { display: none; }
+  }
+
+  @media (max-width: 520px) {
+    .hero { padding-top: 92px; }
+    .hero-badge { font-size: 11.5px; padding-right: 11px; }
+
+    /* 标题压到一行能放下，避免最后一个字单独掉行 */
+    .hero h1 {
+      font-size: clamp(20px, 6.1vw, 32px);
+      letter-spacing: .04em;
+      line-height: 1.35;
+    }
+    /* 副标题的硬换行在窄屏会让每行都很长，交给浏览器自动断行 */
+    .hero-sub br { display: none; }
+    .hero-sub { font-size: 13px; letter-spacing: .04em; }
+
+    .btn-dl { width: 100%; max-width: 340px; font-size: 16px; }
+    .dl-alt { font-size: 12px; gap: 7px; }
+    .ver { font-size: 11px; letter-spacing: 0; }
+    .ver span + span::before { margin: 0 7px; }
+
+    /* 五个平台图标挤进一行 */
+    .plats { gap: 13px; font-size: 12px; letter-spacing: 0; }
+    .plat { gap: 5px; }
+    .plat svg { width: 15px; height: 15px; }
+
+    .foot { font-size: 11.5px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sky" aria-hidden="true">
+  <div class="sky-glow"></div>
+</div>
+
+<header class="nav" id="nav">
+  <a class="brand" href="#top">
+    <img src="../picture/peticon.png" alt="QQPet">
+    <span>QQPet</span>
+    <small>Remake</small>
+  </a>
+  <nav>
+    <a href="#features">功能</a>
+    <a href="#install">安装</a>
+    <a href="#changelog">更新日志</a>
+    <a class="ghost" href="https://gitee.com/z1242742629/qqpet-remake" target="_blank" rel="noopener">Gitee 仓库</a>
+  </nav>
+</header>
+
+<main>
+  <!-- ── 首屏 ── -->
+  <section class="hero" id="top">
+    <div class="hero-badge rise d1"><i>NEW</i> v1.0.16 已发布 · 支持增量更新</div>
+
+    <h1 class="rise d2">QQ宠物，陪你慢慢长大</h1>
+
+    <p class="hero-sub rise d3">
+      那只企鹅回来了。桌面挂机养成、语音聊天、农牧场种菜养鸡、旅行相册，<br>
+      装好就住在你的屏幕角落，安静地等你回来。
+    </p>
+
+    <div class="dl-wrap rise d4">
+      <a class="btn-dl" id="download" href="https://gitee.com/z1242742629/qqpet-remake/releases/download/pet-update/QQPet%20Setup%201.0.16.exe">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3.5v11.2"/><path d="M7.6 10.4 12 14.8l4.4-4.4"/><path d="M4 16.6v2.2a1.7 1.7 0 0 0 1.7 1.7h12.6a1.7 1.7 0 0 0 1.7-1.7v-2.2"/>
+        </svg>
+        Windows 版下载
+      </a>
+
+      <div class="dl-alt">
+        <a href="https://gitee.com/z1242742629/qqpet-remake/releases/download/pet-update/QQPet-Delta-1.0.16.exe">增量更新包 5.2 MB</a>
+        <span class="sep">|</span>
+        <a href="https://gitee.com/z1242742629/qqpet-remake/releases/tag/pet-update" target="_blank" rel="noopener">更多 Windows 版本下载 ›</a>
+      </div>
+    </div>
+
+    <p class="ver rise d5"><span>v 1.0.16</span><span>2026-11-01</span><span>95.1 MB</span><span>Windows 10 / 11 (x64)</span></p>
+
+    <div class="plats rise d6">
+      <span class="plat on" title="Windows 10 / 11，当前可用">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 5.6 10.2 4.6v6.6H3.5zM11.6 4.4 20.5 3v8.2h-8.9zM3.5 12.6h6.7v6.8L3.5 18.4zM11.6 12.6h8.9v8.4l-8.9-1.4z"/></svg>
+        Windows
+      </span>
+      <span class="plat" title="敬请期待">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path class="solid" d="M15.9 12.7c0-1.9 1.6-2.8 1.6-2.9-.9-1.3-2.2-1.5-2.7-1.6-1.2-.1-2.3.7-2.9.7s-1.5-.7-2.4-.7c-1.3 0-2.5.8-3.1 1.9-1.3 2.3-.4 5.7 1 7.5.6 1 1.4 2 2.4 1.9.9-.1 1.3-.6 2.4-.6s1.4.6 2.4.6 1.6-.6 2.2-1.5c.5-.8.7-1.5.7-1.5s-1.6-.6-1.6-2.9zM14.2 6.9c.5-.6.8-1.4.7-2.2-.8.1-1.7.5-2.2 1.1-.5.5-.9 1.4-.8 2.2.9.1 1.8-.4 2.3-1.1z"/></svg>
+        macOS
+      </span>
+      <span class="plat" title="敬请期待">
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="tux"><circle cx="12" cy="7.4" r="3.9" class="solid"/><path class="solid" d="M8.2 9.4c-1.7 2-2.6 4.6-2.6 6.5 0 2.6 2.8 4.4 6.4 4.4s6.4-1.8 6.4-4.4c0-1.9-.9-4.5-2.6-6.5z"/><ellipse class="solid" cx="6.9" cy="19.5" rx="2.5" ry="1.2"/><ellipse class="solid" cx="17.1" cy="19.5" rx="2.5" ry="1.2"/></svg>
+        Linux
+      </span>
+      <span class="plat" title="敬请期待">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.2 10.6a5.8 5.8 0 0 1 11.6 0v4.3a1.6 1.6 0 0 1-1.6 1.6H7.8a1.6 1.6 0 0 1-1.6-1.6z"/><path d="M7.9 6.3 6.3 4.5M16.1 6.3l1.6-1.8"/><circle cx="9.8" cy="10.8" r=".75" fill="currentColor" stroke="none"/><circle cx="14.2" cy="10.8" r=".75" fill="currentColor" stroke="none"/></svg>
+        Android
+      </span>
+      <span class="plat" title="敬请期待">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.8" y="2.6" width="10.4" height="18.8" rx="2.6"/><path d="M10.4 5.4h3.2M10.6 18.4h2.8"/></svg>
+        iOS
+      </span>
+    </div>
+  </section>
+
+  <!-- ── 功能 ── -->
+  <section class="sect" id="features">
+    <div class="sect-head reveal">
+      <h2>它在你桌面上做这些事</h2>
+      <p>不是一张图片，是会饿、会闹、会出远门的活物</p>
+    </div>
+
+    <div class="cards">
+      <article class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2.2"/><path d="M8.5 21h7M12 17v4"/></svg></div>
+        <h3>桌面挂机养成</h3>
+        <p>喂食、洗澡、抚摸、打工，饥饿值和心情会随真实时间变化，关掉程序也在悄悄长大。</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.6a3 3 0 0 0-3 3v5.1a3 3 0 0 0 6 0V6.6a3 3 0 0 0-3-3z"/><path d="M6.6 11.4v.8a5.4 5.4 0 0 0 10.8 0v-.8M12 17.6V21"/></svg></div>
+        <h3>语音聊天</h3>
+        <p>按住说话就能和企鹅对话，识别结果直接进输入框，不用再打一行字。</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c4.4 0 7-2.9 7-6.4 0-4.6-4-6.7-7-11-3 4.3-7 6.4-7 11C5 18.1 7.6 21 12 21z"/><path d="M12 17.4c-1.5 0-2.6-1-2.6-2.4 0-1.7 1.4-2.5 2.6-4 1.2 1.5 2.6 2.3 2.6 4 0 1.4-1.1 2.4-2.6 2.4z"/></svg></div>
+        <h3>农牧场</h3>
+        <p>种菜、养鸡、收蛋、扩建栏位。动物按真实时间生产，回来就有一窝蛋在等你。</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="15" rx="2.4"/><circle cx="8.6" cy="10" r="1.7"/><path d="M3.6 17.2 8.9 12a1.6 1.6 0 0 1 2.2 0l4.1 4.1M14.4 14.6l1.6-1.6a1.6 1.6 0 0 1 2.2 0l2.2 2.2"/></svg></div>
+        <h3>旅行相册</h3>
+        <p>让企鹅自己出门旅行，回来带照片和特产，攒满一本属于它的相册。</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 8.5h15l-1.2 10a2 2 0 0 1-2 1.8H7.7a2 2 0 0 1-2-1.8z"/><path d="M8.8 8.5V6.4a3.2 3.2 0 0 1 6.4 0v2.1"/></svg></div>
+        <h3>商城与元宝</h3>
+        <p>食物、玩具、装扮都能用元宝买到，买完立刻进背包，不用等下次刷新。</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2 14.5 9l6.3.5-4.8 4.1 1.5 6.1L12 16.5 6.5 19.7l1.5-6.1L3.2 9.5 9.5 9z"/></svg></div>
+        <h3>高清素材与动画</h3>
+        <p>高分辨率精灵图、成长动画、语音包按需下载，装好即可离线运行，不额外占用。</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ── 安装 ── -->
+  <section class="sect" id="install">
+    <div class="sect-head reveal">
+      <h2>三步把它请到桌面</h2>
+      <p>无需配置，装完双击就住进来</p>
+    </div>
+
+    <div class="steps">
+      <div class="step reveal">
+        <div class="no">STEP 01</div>
+        <h3>下载安装包</h3>
+        <p>点上面的「Windows 版下载」拿到 <code>QQPet Setup 1.0.16.exe</code>。已经装过旧版的话，下 5.2 MB 的增量包更快。</p>
+      </div>
+      <div class="step reveal">
+        <div class="no">STEP 02</div>
+        <h3>双击安装</h3>
+        <p>默认装到当前用户目录，不需要管理员权限。若杀毒软件误报，加入信任即可。</p>
+      </div>
+      <div class="step reveal">
+        <div class="no">STEP 03</div>
+        <h3>首次启动补齐素材</h3>
+        <p>语言包、高清素材、农牧场等模块会按需下载，在「设置 → 更新」里可以看到进度，也可以随时卸载。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 更新日志 ── -->
+  <section class="sect" id="changelog">
+    <div class="sect-head reveal">
+      <h2>更新日志</h2>
+      <p>完整记录见 <a href="https://gitee.com/z1242742629/qqpet-remake/releases" target="_blank" rel="noopener" style="border-bottom:1px solid rgba(255,255,255,.3)">Gitee Releases</a></p>
+    </div>
+
+    <div class="log">
+      <div class="log-item reveal">
+        <div class="v">v1.0.16 <time>2026-11-01</time></div>
+        <ul>
+          <li>自动检查更新改为「启动后 + 每 2 小时」一次，挂机也能收到新版本提醒（仍然不弹窗、不自动下载）</li>
+          <li>程序本体已是最新、只有功能模块可更新时，提示改为一句完整的人话</li>
+        </ul>
+      </div>
+
+      <div class="log-item reveal">
+        <div class="v">v1.0.15 <time>2026-11-01</time></div>
+        <ul>
+          <li>启动后静默检查一次更新，更新页直接显示结果</li>
+          <li>牧场新手礼改为两只鸡：一只成长期，一只待产倒计时结束等你去抓</li>
+          <li>农牧场改用可信时钟，调系统时间不再让牧场数据错乱</li>
+        </ul>
+      </div>
+
+      <div class="log-item reveal">
+        <div class="v">v1.0.13 <time>2026-10-31</time></div>
+        <ul>
+          <li>收到的元宝直接入账，不用再点一次「使用」</li>
+          <li>商城购买后物品栏即时刷新</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="links">
+    <a href="https://gitee.com/z1242742629/qqpet-remake" target="_blank" rel="noopener">源码仓库</a>
+    <a href="https://gitee.com/z1242742629/qqpet-remake/releases" target="_blank" rel="noopener">全部版本</a>
+    <a href="https://gitee.com/z1242742629/qqpet-remake/issues" target="_blank" rel="noopener">反馈问题</a>
+  </div>
+  <div>QQPet Remake · 个人学习复刻项目，与腾讯公司无关，不含任何官方素材的商业授权</div>
+  <div>© 2026 QQPet Remake. 仅供学习交流，程序按「现状」提供。</div>
+</footer>
+
+<script>
+  // 滚动到内容区时导航加实底，避免白字压在亮色上
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('solid', window.scrollY > 40);
+  onScroll();
+  addEventListener('scroll', onScroll, { passive: true });
+
+  // 内容渐显
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = (i % 6) * 60 + 'ms';
+    io.observe(el);
+  });
+</script>
+</body>
+</html>
